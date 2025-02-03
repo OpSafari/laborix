@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "laborix"
+version = "0.1.0"
+description = "Offline-first orchestration mechanics for synthetic research programs"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {file = "LICENSE"}
+authors = [{name = "Zhu YiJin"}]
+dependencies = ["numpy>=2.0,<3"]
+
+[project.optional-dependencies]
+dev = ["build>=1.2", "hatchling>=1.27", "mypy>=1.15", "pytest>=8.3", "ruff>=0.11"]
+torch = ["torch>=2.6"]
+
+[project.scripts]
+laborix = "laborix.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/laborix"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: slower integration or training test", "model: optional model dependency test"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+strict = true
+packages = ["laborix"]
+
