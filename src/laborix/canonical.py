@@ -7,3 +7,10 @@ from typing import Any
 def canonical_json(value: Any) -> str:
     """Encode JSON with sorted keys and no insignificant whitespace."""
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+
+def strict_canonical_json(value: Any) -> str:
+    """Encode canonical JSON while rejecting NaN and infinity."""
+    return json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False
+    )
