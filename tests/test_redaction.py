@@ -13,3 +13,9 @@ def test_redact_handles_nested_mappings_without_mutation() -> None:
     source = {"nested": {"password": "p", "label": "safe"}}
     assert redact(source) == {"nested": {"password": "[REDACTED]", "label": "safe"}}
     assert source["nested"]["password"] == "p"
+
+
+def test_redact_sequence_descends_into_items() -> None:
+    from laborix.redaction import redact_sequence
+
+    assert redact_sequence([{"secret": "x"}, {"ok": 1}]) == [{"secret": "[REDACTED]"}, {"ok": 1}]

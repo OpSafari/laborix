@@ -17,3 +17,8 @@ def redact(value: object) -> object:
             for key, item in value.items()
         }
     return value
+
+
+def redact_sequence(values: list[object] | tuple[object, ...]) -> list[object]:
+    """Redact every value in a JSON-like sequence."""
+    return [redact(item) for item in values]
