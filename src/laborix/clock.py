@@ -15,3 +15,18 @@ class SystemClock:
 
     def now(self) -> float:
         return time.monotonic()
+
+
+class ManualClock:
+    """Explicitly advanced clock for offline simulations."""
+
+    def __init__(self, start: float = 0.0) -> None:
+        self._value = start
+
+    def now(self) -> float:
+        return self._value
+
+    def advance(self, seconds: float) -> None:
+        if seconds < 0:
+            raise ValueError("clock cannot move backwards")
+        self._value += seconds
