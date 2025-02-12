@@ -30,3 +30,8 @@ class ManualClock:
         if seconds < 0:
             raise ValueError("clock cannot move backwards")
         self._value += seconds
+
+
+def elapsed_seconds(clock: Clock, started_at: float) -> float:
+    """Return a nonnegative elapsed duration despite a faulty clock."""
+    return max(0.0, clock.now() - started_at)
