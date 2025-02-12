@@ -10,3 +10,9 @@ def test_stage_values_are_stable() -> None:
         "analysis",
         "report",
     ]
+
+
+def test_port_defaults_to_json() -> None:
+    from laborix.plan import Port
+
+    assert Port("metrics").kind == "json"
