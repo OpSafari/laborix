@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import StrEnum
+from typing import Any
 
 from laborix.errors import ValidationError
 
@@ -45,3 +46,16 @@ class RetryPolicy:
             raise ValidationError("retry attempts must be at least one")
         if self.delay_seconds < 0 or not 0 <= self.jitter <= 1:
             raise ValidationError("invalid retry timing")
+
+
+@dataclass(frozen=True)
+class Step:
+    id: str
+    stage: Stage
+    operation: str
+    dependencies: tuple[str, ...] = ()
+    inputs: dict[str, str] = field(default_factory=dict)
+    outputs: tuple[Port, ...] = ()
+    config: dict[str, Any] = field(default_factory=dict)
+    resources: Resources = field(default_factory=Resources)
+    retry: RetryPolicy = field(default_factory=RetryPolicy)
