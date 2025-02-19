@@ -51,3 +51,13 @@ def test_plan_records_schema_and_seed() -> None:
     from laborix.plan import Plan
 
     assert Plan("demo", (), seed=7).schema_version == "2.0"
+
+
+def test_identifiers_and_duplicates_are_rejected() -> None:
+    from laborix.plan import Plan, Step, _ids
+
+    with pytest.raises(ValidationError, match="invalid step id"):
+        _ids(Plan("x", (Step("Bad", Stage.REPORT, "x"),)))
+    a = Step("a", Stage.REPORT, "x")
+    with pytest.raises(ValidationError, match="duplicate"):
+        _ids(Plan("x", (a, a)))
