@@ -59,3 +59,11 @@ class Step:
     config: dict[str, Any] = field(default_factory=dict)
     resources: Resources = field(default_factory=Resources)
     retry: RetryPolicy = field(default_factory=RetryPolicy)
+
+
+@dataclass(frozen=True)
+class Plan:
+    name: str
+    steps: tuple[Step, ...]
+    schema_version: str = "2.0"
+    seed: int = 0

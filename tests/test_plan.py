@@ -45,3 +45,9 @@ def test_step_defaults_are_isolated() -> None:
     right = Step("b", Stage.REPORT, "noop")
     left.config["x"] = 1
     assert right.config == {}
+
+
+def test_plan_records_schema_and_seed() -> None:
+    from laborix.plan import Plan
+
+    assert Plan("demo", (), seed=7).schema_version == "2.0"
