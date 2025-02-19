@@ -27,3 +27,12 @@ def test_resources_require_positive_limits() -> None:
     Resources().validate()
     with pytest.raises(ValidationError, match="positive"):
         Resources(cpu=0).validate()
+
+
+def test_retry_policy_checks_ceiling_and_jitter() -> None:
+    from laborix.plan import RetryPolicy
+
+    with pytest.raises(ValidationError, match="attempts"):
+        RetryPolicy(0).validate()
+    with pytest.raises(ValidationError, match="timing"):
+        RetryPolicy(jitter=1.1).validate()
