@@ -99,3 +99,25 @@ def topological_order(plan: Plan) -> tuple[str, ...]:
         for deps in remaining.values():
             deps.difference_update(ready)
     return tuple(result)
+
+
+def validate_plan(plan: Plan) -> None:
+    by_id = _ids(plan)
+    topological_order(plan)
+    for step in plan.steps:
+        step.resources.validate()
+        step.retry.validate()
+        output_names = {p.name for p in step.outputs}
+        if len(output_names) != len(step.outputs):
+            raise ValidationError(f"duplicate output in step {step.id}")
+        for local, reference in step.inputs.items():
+            if "." not in reference:
+                raise ValidationError(f"input {step.id}.{local} must use step.port")
+            source, port = reference.split(".", 1)
+            if source not in by_id:
+                raise ValidationError(f"input {step.id}.{local} references missing step {source}")
+            candidates = {p.name: p for p in by_id[source].outputs}
+            if port not in candidates:
+                raise ValidationError(
+                    f"input {step.id}.{local} references missing port {reference}"
+                )

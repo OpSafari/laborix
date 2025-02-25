@@ -78,3 +78,12 @@ def test_topological_order_reports_cycles() -> None:
     steps = (Step("a", Stage.EXPERIMENT, "x", ("b",)), Step("b", Stage.ANALYSIS, "x", ("a",)))
     with pytest.raises(ValidationError, match="cycle among: a, b"):
         topological_order(Plan("x", steps))
+
+
+def test_input_references_require_existing_ports() -> None:
+    from laborix.plan import Plan, Port, Step, validate_plan
+
+    a = Step("a", Stage.EXPERIMENT, "x", outputs=(Port("score"),))
+    b = Step("b", Stage.ANALYSIS, "x", ("a",), {"x": "a.missing"})
+    with pytest.raises(ValidationError, match=r"missing port a\.missing"):
+        validate_plan(Plan("x", (a, b)))
