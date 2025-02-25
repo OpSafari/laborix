@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+import json
 import re
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from enum import StrEnum
 from typing import Any
 
@@ -121,3 +122,16 @@ def validate_plan(plan: Plan) -> None:
                 raise ValidationError(
                     f"input {step.id}.{local} references missing port {reference}"
                 )
+
+
+def plan_to_dict(plan: Plan) -> dict[str, Any]:
+    return {
+        "schema_version": plan.schema_version,
+        "name": plan.name,
+        "seed": plan.seed,
+        "steps": [asdict(step) for step in plan.steps],
+    }
+
+
+def plan_to_json(plan: Plan) -> str:
+    return json.dumps(plan_to_dict(plan), sort_keys=True, separators=(",", ":"), ensure_ascii=False)

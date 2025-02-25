@@ -87,3 +87,12 @@ def test_input_references_require_existing_ports() -> None:
     b = Step("b", Stage.ANALYSIS, "x", ("a",), {"x": "a.missing"})
     with pytest.raises(ValidationError, match=r"missing port a\.missing"):
         validate_plan(Plan("x", (a, b)))
+
+
+def test_plan_json_is_canonical() -> None:
+    from laborix.plan import Plan, plan_to_json
+
+    assert (
+        plan_to_json(Plan("合成", (), seed=3))
+        == '{"name":"合成","schema_version":"2.0","seed":3,"steps":[]}'
+    )
