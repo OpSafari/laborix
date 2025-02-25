@@ -61,3 +61,12 @@ def test_identifiers_and_duplicates_are_rejected() -> None:
     a = Step("a", Stage.REPORT, "x")
     with pytest.raises(ValidationError, match="duplicate"):
         _ids(Plan("x", (a, a)))
+
+
+def test_topological_order_is_stable_and_rejects_dangling() -> None:
+    from laborix.plan import Plan, Step, topological_order
+
+    steps = (Step("b", Stage.REPORT, "x", ("a",)), Step("a", Stage.EXPERIMENT, "x"))
+    assert topological_order(Plan("x", steps)) == ("a", "b")
+    with pytest.raises(ValidationError, match="dangling dependency: z"):
+        topological_order(Plan("x", (Step("a", Stage.REPORT, "x", ("z",)),)))

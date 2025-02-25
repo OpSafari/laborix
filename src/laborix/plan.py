@@ -79,3 +79,23 @@ def _ids(plan: Plan) -> dict[str, Step]:
             raise ValidationError(f"duplicate step id: {step.id}")
         result[step.id] = step
     return result
+
+
+def topological_order(plan: Plan) -> tuple[str, ...]:
+    by_id = _ids(plan)
+    remaining = {key: set(step.dependencies) for key, step in by_id.items()}
+    result = []
+    for key, deps in remaining.items():
+        missing = deps - by_id.keys()
+        if missing:
+            raise ValidationError(f"step {key} has dangling dependency: {min(missing)}")
+    while remaining:
+        ready = sorted(key for key, deps in remaining.items() if not deps)
+        if not ready:
+            raise ValidationError(f"dependency cycle among: {', '.join(sorted(remaining))}")
+        for key in ready:
+            result.append(key)
+            remaining.pop(key)
+        for deps in remaining.values():
+            deps.difference_update(ready)
+    return tuple(result)
