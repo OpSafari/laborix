@@ -135,3 +135,30 @@ def plan_to_dict(plan: Plan) -> dict[str, Any]:
 
 def plan_to_json(plan: Plan) -> str:
     return json.dumps(plan_to_dict(plan), sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+
+def plan_from_dict(value: dict[str, Any]) -> Plan:
+    steps = []
+    for raw in value.get("steps", []):
+        item = dict(raw)
+        item["stage"] = Stage(item["stage"])
+        item["outputs"] = tuple(Port(**p) for p in item.get("outputs", []))
+        item["dependencies"] = tuple(item.get("dependencies", ()))
+        item["resources"] = Resources(**item.get("resources", {}))
+        item["retry"] = RetryPolicy(**item.get("retry", {}))
+        steps.append(Step(**item))
+    plan = Plan(
+        str(value["name"]),
+        tuple(steps),
+        str(value.get("schema_version", "2.0")),
+        int(value.get("seed", 0)),
+    )
+    validate_plan(plan)
+    return plan
+
+
+def plan_from_json(text: str) -> Plan:
+    value = json.loads(text)
+    if not isinstance(value, dict):
+        raise ValidationError("plan JSON root must be an object")
+    return plan_from_dict(value)

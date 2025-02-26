@@ -96,3 +96,10 @@ def test_plan_json_is_canonical() -> None:
         plan_to_json(Plan("合成", (), seed=3))
         == '{"name":"合成","schema_version":"2.0","seed":3,"steps":[]}'
     )
+
+
+def test_plan_roundtrip_preserves_typed_values() -> None:
+    from laborix.plan import Plan, Port, Step, plan_from_json, plan_to_json
+
+    value = Plan("x", (Step("a", Stage.EXPERIMENT, "mean", outputs=(Port("score", "number"),)),))
+    assert plan_from_json(plan_to_json(value)) == value
