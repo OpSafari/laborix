@@ -103,3 +103,12 @@ def test_plan_roundtrip_preserves_typed_values() -> None:
 
     value = Plan("x", (Step("a", Stage.EXPERIMENT, "mean", outputs=(Port("score", "number"),)),))
     assert plan_from_json(plan_to_json(value)) == value
+
+
+def test_migration_upgrades_v1_without_mutation() -> None:
+    from laborix.plan import migrate_plan
+
+    old = {"schema_version": "1.0", "name": "x", "steps": []}
+    new = migrate_plan(old)
+    assert new == {"schema_version": "2.0", "name": "x", "steps": [], "seed": 0}
+    assert old["schema_version"] == "1.0"
