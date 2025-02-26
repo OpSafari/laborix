@@ -112,3 +112,13 @@ def test_migration_upgrades_v1_without_mutation() -> None:
     new = migrate_plan(old)
     assert new == {"schema_version": "2.0", "name": "x", "steps": [], "seed": 0}
     assert old["schema_version"] == "1.0"
+
+
+def test_plan_diff_classifies_step_changes() -> None:
+    from laborix.plan import Plan, Step, diff_plans
+
+    before = Plan("x", (Step("a", Stage.EXPERIMENT, "old"), Step("gone", Stage.REPORT, "x")))
+    after = Plan("x", (Step("a", Stage.EXPERIMENT, "new"), Step("new", Stage.REPORT, "x")))
+    assert diff_plans(before, after).added == ("new",)
+    assert diff_plans(before, after).removed == ("gone",)
+    assert diff_plans(before, after).changed == ("a",)
