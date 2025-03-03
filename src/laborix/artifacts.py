@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
+from laborix.canonical import strict_canonical_json
 from laborix.hashing import bytes_digest
 
 
@@ -33,3 +36,9 @@ class ArtifactStore:
         if len(data) != ref.size or bytes_digest([data]) != ref.digest:
             raise ValueError(f"artifact integrity failure: {ref.digest}")
         return data
+
+    def put_json(self, value: Any) -> ArtifactRef:
+        return self.put_bytes(strict_canonical_json(value).encode(), "application/json")
+
+    def get_json(self, ref: ArtifactRef) -> Any:
+        return json.loads(self.get_bytes(ref))

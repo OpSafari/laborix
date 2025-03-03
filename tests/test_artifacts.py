@@ -27,3 +27,11 @@ def test_store_detects_tampered_content(tmp_path: Path) -> None:
     (tmp_path / ref.digest[:2] / ref.digest[2:]).write_bytes(b"evil")
     with pytest.raises(ValueError, match="integrity"):
         store.get_bytes(ref)
+
+
+def test_json_artifacts_roundtrip_canonically(tmp_path: Path) -> None:
+    from laborix.artifacts import ArtifactStore
+
+    store = ArtifactStore(tmp_path)
+    ref = store.put_json({"b": 2, "a": 1})
+    assert store.get_json(ref) == {"a": 1, "b": 2}
