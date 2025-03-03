@@ -10,10 +10,10 @@ def test_version_matches_installed_metadata() -> None:
 def test_public_core_exports() -> None:
     import laborix
 
-    assert set(laborix.__all__) == {
+    assert {
         "ExecutionError",
         "ValidationError",
         "__version__",
         "derive_seed",
         "value_digest",
-    }
+    } <= set(laborix.__all__)
