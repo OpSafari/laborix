@@ -9,3 +9,10 @@ def record(step: str = "a", status: str = "success") -> LedgerRecord:
 
 def test_empty_ledger_has_no_records(tmp_path: Path) -> None:
     assert list(Ledger(tmp_path / "run.jsonl").records()) == []
+
+
+def test_append_links_records(tmp_path: Path) -> None:
+    ledger = Ledger(tmp_path / "x")
+    first = ledger.append(record("a"))
+    second = ledger.append(record("b"))
+    assert second["previous_hash"] == first["record_hash"]
