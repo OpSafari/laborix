@@ -24,3 +24,10 @@ def test_verify_detects_ledger_tampering(tmp_path: Path) -> None:
     ledger.append(record())
     path.write_text(path.read_text().replace('"status":"success"', '"status":"failed"'))
     assert ledger.verify() == (False, "record 1 content hash mismatch")
+
+
+def test_successful_steps_uses_latest_success(tmp_path: Path) -> None:
+    ledger = Ledger(tmp_path / "x")
+    ledger.append(record("a", "failed"))
+    ledger.append(record("a"))
+    assert ledger.successful_steps()["a"]["status"] == "success"
