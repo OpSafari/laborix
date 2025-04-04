@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from laborix.executor import Executor
-from laborix.plan import Plan, Port, Stage, Step
+from laborix.plan import Plan, Port, RetryPolicy, Stage, Step
 from laborix.registry import StepRegistry
 
 
@@ -45,3 +45,14 @@ def test_executor_returns_clean_partial_state(tmp_path: Path) -> None:
     result = Executor(reg, tmp_path).run(plan)
     assert result.completed == ("a",)
     assert result.failed == "b"
+
+
+def test_executor_honors_retry_ceiling(tmp_path: Path) -> None:
+    calls = []
+    reg = registry()
+    reg.register("flaky", lambda a, b, c: calls.append(1) or (_ for _ in ()).throw(RuntimeError()))
+    result = Executor(reg, tmp_path).run(
+        Plan("x", (Step("a", Stage.EXPERIMENT, "flaky", retry=RetryPolicy(3)),))
+    )
+    assert result.failed == "a"
+    assert len(calls) == 3
