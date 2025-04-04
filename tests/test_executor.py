@@ -56,3 +56,14 @@ def test_executor_honors_retry_ceiling(tmp_path: Path) -> None:
     )
     assert result.failed == "a"
     assert len(calls) == 3
+
+
+def test_resume_replays_completed_artifacts(tmp_path: Path) -> None:
+    calls = []
+    reg = StepRegistry()
+    reg.register("once", lambda a, b, c: calls.append(1) or {"value": 9})
+    plan = Plan("x", (Step("a", Stage.EXPERIMENT, "once"),))
+    first = Executor(reg, tmp_path).run(plan)
+    second = Executor(reg, tmp_path).run(plan, resume=True)
+    assert first.outputs == second.outputs
+    assert len(calls) == 1

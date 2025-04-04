@@ -37,7 +37,9 @@ class Executor:
             step = by_id[step_id]
             if step_id in prior and prior[step_id].get("outputs_hash"):
                 raw = prior[step_id]
-                ref = ArtifactRef(str(raw["outputs_hash"]), int(raw["output_size"]))
+                ref = ArtifactRef(
+                    str(raw["outputs_hash"]), int((self.store.root / f"{step.id}.size").read_text())
+                )
                 outputs[step_id] = self.store.get_json(ref)
                 completed.append(step_id)
                 continue
@@ -64,11 +66,8 @@ class Executor:
                         time.monotonic() - started,
                         "success",
                     )
-                    raw = self.ledger.append(record)
-                    raw["output_size"] = ref.size
-                    lines = list(self.ledger.records())
-                    lines[-1]["output_size"] = ref.size
-                    self._rewrite(lines)
+                    self.ledger.append(record)
+                    (self.store.root / f"{step.id}.size").write_text(str(ref.size))
                     outputs[step.id] = result
                     completed.append(step.id)
                     break
