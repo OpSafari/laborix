@@ -25,3 +25,12 @@ class StationarySurface:
     def oracle(self) -> tuple[int, float]:
         arm = max(range(len(self.means)), key=self.means.__getitem__)
         return arm, self.means[arm]
+
+
+@dataclass(frozen=True)
+class Budget:
+    max_runs: int
+    max_seconds: float | None = None
+
+    def allows(self, runs: int, elapsed: float) -> bool:
+        return runs < self.max_runs and (self.max_seconds is None or elapsed < self.max_seconds)
