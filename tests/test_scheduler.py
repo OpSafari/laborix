@@ -1,3 +1,5 @@
+import pytest
+
 from laborix.scheduler import StationarySurface
 
 
@@ -62,3 +64,11 @@ def test_schedule_never_exceeds_run_budget() -> None:
     trace = schedule(StationarySurface((0.2, 0.8)), UCB1(2), Budget(7), 3)
     assert len(trace) == 7
     assert [x.run for x in trace] == list(range(7))
+
+
+def test_cumulative_regret_accumulates_trace() -> None:
+    from laborix.scheduler import Observation, cumulative_regret
+
+    assert cumulative_regret(
+        (Observation(0, 0, 0, 0.5), Observation(1, 1, 0, 0.2))
+    ) == pytest.approx((0.5, 0.7))

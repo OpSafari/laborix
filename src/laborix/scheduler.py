@@ -124,3 +124,12 @@ def schedule(
         policy.update(arm, reward)
         result.append(Observation(len(result), arm, reward, best - reward))
     return tuple(result)
+
+
+def cumulative_regret(trace: tuple[Observation, ...]) -> tuple[float, ...]:
+    total = 0.0
+    values = []
+    for item in trace:
+        total += item.regret
+        values.append(total)
+    return tuple(values)
