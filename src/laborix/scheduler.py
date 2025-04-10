@@ -81,3 +81,25 @@ class Thompson:
         clipped = min(1.0, max(0.0, reward))
         self.alpha[arm] += clipped
         self.beta[arm] += 1 - clipped
+
+
+@dataclass
+class SlidingWindowUCB:
+    arms: int
+    window: int
+    history: list[tuple[int, float]] = field(default_factory=list)
+
+    def select(self) -> int:
+        recent = self.history[-self.window :]
+        counts = [sum(a == i for a, _ in recent) for i in range(self.arms)]
+        if 0 in counts:
+            return counts.index(0)
+        totals = [sum(r for a, r in recent if a == i) for i in range(self.arms)]
+        n = len(recent)
+        return max(
+            range(self.arms),
+            key=lambda a: totals[a] / counts[a] + math.sqrt(2 * math.log(n) / counts[a]),
+        )
+
+    def update(self, arm: int, reward: float) -> None:
+        self.history.append((arm, reward))

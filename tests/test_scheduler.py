@@ -44,3 +44,13 @@ def test_thompson_updates_fractional_evidence() -> None:
     p.update(1, 0.75)
     assert p.alpha[1] == 1.75
     assert p.beta[1] == 1.25
+
+
+def test_sliding_ucb_forgets_old_observations() -> None:
+    from laborix.scheduler import SlidingWindowUCB
+
+    p = SlidingWindowUCB(2, 2)
+    p.update(0, 10)
+    p.update(1, 0)
+    p.update(1, 1)
+    assert p.select() == 0
