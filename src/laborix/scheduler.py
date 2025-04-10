@@ -103,3 +103,24 @@ class SlidingWindowUCB:
 
     def update(self, arm: int, reward: float) -> None:
         self.history.append((arm, reward))
+
+
+@dataclass(frozen=True)
+class Observation:
+    run: int
+    arm: int
+    reward: float
+    regret: float
+
+
+def schedule(
+    surface: StationarySurface, policy: object, budget: Budget, seed: int = 0
+) -> tuple[Observation, ...]:
+    result = []
+    _, best = surface.oracle()
+    while budget.allows(len(result), float(len(result))):
+        arm = policy.select()
+        reward = surface.reward(arm, len(result), seed)
+        policy.update(arm, reward)
+        result.append(Observation(len(result), arm, reward, best - reward))
+    return tuple(result)
