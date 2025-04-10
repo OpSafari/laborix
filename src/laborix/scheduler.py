@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+import math
+from dataclasses import dataclass, field
 from typing import Protocol
 
 import numpy as np
@@ -34,3 +35,30 @@ class Budget:
 
     def allows(self, runs: int, elapsed: float) -> bool:
         return runs < self.max_runs and (self.max_seconds is None or elapsed < self.max_seconds)
+
+
+@dataclass
+class UCB1:
+    arms: int
+    counts: list[int] = field(init=False)
+    totals: list[float] = field(init=False)
+
+    def __post_init__(self) -> None:
+        self.counts = [0] * self.arms
+        self.totals = [0.0] * self.arms
+
+    def select(self) -> int:
+        for arm, count in enumerate(self.counts):
+            if count == 0:
+                return arm
+        total = sum(self.counts)
+        return max(
+            range(self.arms),
+            key=lambda a: (
+                self.totals[a] / self.counts[a] + math.sqrt(2 * math.log(total) / self.counts[a])
+            ),
+        )
+
+    def update(self, arm: int, reward: float) -> None:
+        self.counts[arm] += 1
+        self.totals[arm] += reward
