@@ -26,3 +26,12 @@ def test_ucb1_cold_starts_in_arm_order() -> None:
         seen.append(a)
         p.update(a, reward)
     assert seen == [0, 1, 2]
+
+
+def test_ucb1_prefers_high_reward_after_exploration() -> None:
+    from laborix.scheduler import UCB1
+
+    p = UCB1(2)
+    p.update(0, 0.0)
+    p.update(1, 1.0)
+    assert p.select() == 1
