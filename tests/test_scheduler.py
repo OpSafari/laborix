@@ -35,3 +35,12 @@ def test_ucb1_prefers_high_reward_after_exploration() -> None:
     p.update(0, 0.0)
     p.update(1, 1.0)
     assert p.select() == 1
+
+
+def test_thompson_updates_fractional_evidence() -> None:
+    from laborix.scheduler import Thompson
+
+    p = Thompson(2, 4)
+    p.update(1, 0.75)
+    assert p.alpha[1] == 1.75
+    assert p.beta[1] == 1.25
