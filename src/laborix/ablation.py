@@ -5,6 +5,8 @@ from __future__ import annotations
 from itertools import product
 from typing import Any
 
+import numpy as np
+
 
 def factor_grid(factors: dict[str, list[Any]]) -> tuple[dict[str, Any], ...]:
     names = tuple(sorted(factors))
@@ -47,3 +49,15 @@ def paired_effect(
         for key in sorted(groups)
         if low in groups[key] and high in groups[key]
     )
+
+
+def bootstrap_ci(
+    values: tuple[float, ...], seed: int = 0, samples: int = 1000, level: float = 0.95
+) -> tuple[float, float]:
+    if not values:
+        raise ValueError("cannot bootstrap empty values")
+    rng = np.random.default_rng(seed)
+    data = np.asarray(values)
+    means = np.mean(rng.choice(data, (samples, len(data)), replace=True), axis=1)
+    tail = (1 - level) / 2
+    return float(np.quantile(means, tail)), float(np.quantile(means, 1 - tail))

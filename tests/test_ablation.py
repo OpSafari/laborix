@@ -36,3 +36,11 @@ def test_paired_effect_uses_matched_contexts() -> None:
         {"method": "b", "seed": 2, "score": 3},
     ]
     assert paired_effect(rows, "method", "a", "b") == pytest.approx((3, -1))
+
+
+def test_bootstrap_ci_is_seeded_and_contains_constant() -> None:
+    from laborix.ablation import bootstrap_ci
+
+    assert bootstrap_ci((2.0, 2.0), 4, 100) == (2.0, 2.0)
+    with pytest.raises(ValueError, match="empty"):
+        bootstrap_ci(())
