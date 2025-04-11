@@ -1,3 +1,5 @@
+import pytest
+
 from laborix.ablation import factor_grid
 
 
@@ -22,3 +24,15 @@ def test_coverage_requires_controlled_variation() -> None:
     factors = {"a": [0, 1], "b": [0, 1]}
     assert coverage(factors, list(factor_grid(factors))) == {"a": True, "b": True}
     assert coverage(factors, [{"a": 0, "b": 0}, {"a": 1, "b": 1}]) == {"a": False, "b": False}
+
+
+def test_paired_effect_uses_matched_contexts() -> None:
+    from laborix.ablation import paired_effect
+
+    rows = [
+        {"method": "a", "seed": 1, "score": 2},
+        {"method": "b", "seed": 1, "score": 5},
+        {"method": "a", "seed": 2, "score": 4},
+        {"method": "b", "seed": 2, "score": 3},
+    ]
+    assert paired_effect(rows, "method", "a", "b") == pytest.approx((3, -1))
