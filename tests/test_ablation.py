@@ -14,3 +14,11 @@ def test_missing_cells_reports_exact_configurations() -> None:
     from laborix.ablation import missing_cells
 
     assert missing_cells({"x": [0, 1]}, [{"x": 0, "score": 2}]) == ({"x": 1},)
+
+
+def test_coverage_requires_controlled_variation() -> None:
+    from laborix.ablation import coverage
+
+    factors = {"a": [0, 1], "b": [0, 1]}
+    assert coverage(factors, list(factor_grid(factors))) == {"a": True, "b": True}
+    assert coverage(factors, [{"a": 0, "b": 0}, {"a": 1, "b": 1}]) == {"a": False, "b": False}
