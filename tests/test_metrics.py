@@ -8,3 +8,13 @@ def test_mean_absolute_error_example() -> None:
     from laborix.metrics import mean_absolute_error
 
     assert mean_absolute_error([1.0, 3.0], [2.0, 5.0]) == 1.5
+
+
+def test_root_mean_square_example() -> None:
+    import math
+
+    import pytest
+
+    from laborix.metrics import root_mean_square
+
+    assert root_mean_square([3.0, 4.0]) == pytest.approx(math.sqrt(12.5))
