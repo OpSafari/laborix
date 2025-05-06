@@ -24,3 +24,9 @@ def test_minimum_example() -> None:
     from laborix.metrics import minimum
 
     assert minimum([3.0, -1.0, 2.0]) == -1.0
+
+
+def test_maximum_example() -> None:
+    from laborix.metrics import maximum
+
+    assert maximum([3.0, -1.0, 2.0]) == 3.0
