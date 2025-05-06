@@ -18,3 +18,9 @@ def test_root_mean_square_example() -> None:
     from laborix.metrics import root_mean_square
 
     assert root_mean_square([3.0, 4.0]) == pytest.approx(math.sqrt(12.5))
+
+
+def test_minimum_example() -> None:
+    from laborix.metrics import minimum
+
+    assert minimum([3.0, -1.0, 2.0]) == -1.0
