@@ -36,3 +36,9 @@ def test_maximum_is_repeatable() -> None:
     from laborix.metrics import maximum
 
     assert maximum([3.0, -1.0, 2.0]) == maximum([3.0, -1.0, 2.0])
+
+
+def test_value_range_example() -> None:
+    from laborix.metrics import value_range
+
+    assert value_range([3.0, -1.0, 2.0]) == 4.0
