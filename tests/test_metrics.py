@@ -42,3 +42,9 @@ def test_value_range_example() -> None:
     from laborix.metrics import value_range
 
     assert value_range([3.0, -1.0, 2.0]) == 4.0
+
+
+def test_median_example() -> None:
+    from laborix.metrics import median
+
+    assert median([9.0, 1.0, 4.0]) == 4.0
