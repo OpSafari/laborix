@@ -60,3 +60,11 @@ def test_geometric_mean_example() -> None:
     from laborix.metrics import geometric_mean
 
     assert geometric_mean([1.0, 4.0]) == 2.0
+
+
+def test_harmonic_mean_example() -> None:
+    import pytest
+
+    from laborix.metrics import harmonic_mean
+
+    assert harmonic_mean([1.0, 2.0]) == pytest.approx(4 / 3)
