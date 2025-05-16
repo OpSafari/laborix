@@ -68,3 +68,9 @@ def test_harmonic_mean_example() -> None:
     from laborix.metrics import harmonic_mean
 
     assert harmonic_mean([1.0, 2.0]) == pytest.approx(4 / 3)
+
+
+def test_harmonic_mean_is_repeatable() -> None:
+    from laborix.metrics import harmonic_mean
+
+    assert harmonic_mean([1.0, 2.0]) == harmonic_mean([1.0, 2.0])
