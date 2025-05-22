@@ -54,3 +54,8 @@ def harmonic_mean(values: Sequence[float]):
 def sum_squares(values: Sequence[float]):
     """Compute sum squares for synthetic measurements."""
     return sum(x * x for x in values)
+
+
+def l1_norm(values: Sequence[float]):
+    """Compute l1 norm for synthetic measurements."""
+    return sum(abs(x) for x in values)
