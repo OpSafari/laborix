@@ -98,3 +98,9 @@ def test_l2_norm_example() -> None:
     from laborix.metrics import l2_norm
 
     assert l2_norm([3.0, 4.0]) == 5.0
+
+
+def test_positive_rate_example() -> None:
+    from laborix.metrics import positive_rate
+
+    assert positive_rate([-1.0, 0.0, 2.0, 3.0]) == 0.5
