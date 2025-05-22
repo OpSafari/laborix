@@ -86,3 +86,9 @@ def test_l1_norm_example() -> None:
     from laborix.metrics import l1_norm
 
     assert l1_norm([-2.0, 3.0]) == 5.0
+
+
+def test_l1_norm_is_repeatable() -> None:
+    from laborix.metrics import l1_norm
+
+    assert l1_norm([-2.0, 3.0]) == l1_norm([-2.0, 3.0])
