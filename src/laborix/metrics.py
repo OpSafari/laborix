@@ -79,3 +79,8 @@ def zero_rate(values: Sequence[float]):
 def clipped_mean(values: Sequence[float], low: float, high: float):
     """Compute clipped mean for synthetic measurements."""
     return sum(min(high, max(low, x)) for x in values) / len(values)
+
+
+def weighted_sum(values: Sequence[float], weights: Sequence[float]):
+    """Compute weighted sum for synthetic measurements."""
+    return sum(x * w for x, w in zip(values, weights, strict=True))
