@@ -134,3 +134,9 @@ def test_weighted_sum_example() -> None:
     from laborix.metrics import weighted_sum
 
     assert weighted_sum([2.0, 3.0], [0.25, 0.75]) == 2.75
+
+
+def test_max_index_example() -> None:
+    from laborix.metrics import max_index
+
+    assert max_index([1.0, 9.0, 2.0]) == 1
