@@ -158,3 +158,9 @@ def test_cumulative_sum_example() -> None:
     from laborix.metrics import cumulative_sum
 
     assert cumulative_sum([1.0, 2.0, 3.0]) == (1.0, 3.0, 6.0)
+
+
+def test_cumulative_sum_is_repeatable() -> None:
+    from laborix.metrics import cumulative_sum
+
+    assert cumulative_sum([1.0, 2.0, 3.0]) == cumulative_sum([1.0, 2.0, 3.0])
