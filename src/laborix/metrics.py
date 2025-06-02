@@ -89,3 +89,8 @@ def weighted_sum(values: Sequence[float], weights: Sequence[float]):
 def max_index(values: Sequence[float]):
     """Compute max index for synthetic measurements."""
     return max(range(len(values)), key=values.__getitem__)
+
+
+def min_index(values: Sequence[float]):
+    """Compute min index for synthetic measurements."""
+    return min(range(len(values)), key=values.__getitem__)
