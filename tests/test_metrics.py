@@ -152,3 +152,9 @@ def test_min_index_example() -> None:
     from laborix.metrics import min_index
 
     assert min_index([1.0, -9.0, 2.0]) == 1
+
+
+def test_cumulative_sum_example() -> None:
+    from laborix.metrics import cumulative_sum
+
+    assert cumulative_sum([1.0, 2.0, 3.0]) == (1.0, 3.0, 6.0)
