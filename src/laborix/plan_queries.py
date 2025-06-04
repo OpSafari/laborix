@@ -8,3 +8,8 @@ from laborix.plan import Plan
 def step_ids(plan: Plan):
     """Return the plan step ids."""
     return tuple(step.id for step in plan.steps)
+
+
+def operations(plan: Plan):
+    """Return the plan operations."""
+    return tuple(sorted({step.operation for step in plan.steps}))
