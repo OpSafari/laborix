@@ -27,3 +27,8 @@ def leaf_steps(plan: Plan):
         for step in plan.steps
         if not any(step.id in other.dependencies for other in plan.steps)
     )
+
+
+def root_steps(plan: Plan):
+    """Return the plan root steps."""
+    return tuple(step.id for step in plan.steps if not step.dependencies)  # noqa: E501
