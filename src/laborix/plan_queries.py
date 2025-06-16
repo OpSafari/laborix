@@ -42,3 +42,8 @@ def stages_used(plan: Plan):
 def output_count(plan: Plan):
     """Return the plan output count."""
     return sum(len(step.outputs) for step in plan.steps)  # noqa: E501
+
+
+def max_retry_attempts(plan: Plan):
+    """Return the plan max retry attempts."""
+    return max((step.retry.attempts for step in plan.steps), default=0)  # noqa: E501

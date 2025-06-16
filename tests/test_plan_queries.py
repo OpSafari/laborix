@@ -65,3 +65,11 @@ def test_output_count_query() -> None:
 
     actual = output_count(Plan("x", (Step("a", Stage.REPORT, "x"),)))
     assert actual == 0
+
+
+def test_max_retry_attempts_query() -> None:
+    from laborix.plan import Plan, Stage, Step
+    from laborix.plan_queries import max_retry_attempts
+
+    actual = max_retry_attempts(Plan("x", (Step("a", Stage.REPORT, "x"),)))
+    assert actual == 1
