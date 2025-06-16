@@ -57,3 +57,11 @@ def test_stages_used_query_is_stable() -> None:
 
     plan = Plan("x", (Step("a", Stage.REPORT, "x"), Step("b", Stage.ANALYSIS, "x")))
     assert stages_used(plan) == stages_used(plan)
+
+
+def test_output_count_query() -> None:
+    from laborix.plan import Plan, Stage, Step
+    from laborix.plan_queries import output_count
+
+    actual = output_count(Plan("x", (Step("a", Stage.REPORT, "x"),)))
+    assert actual == 0
