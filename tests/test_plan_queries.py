@@ -90,3 +90,11 @@ def test_total_cpu_query() -> None:
 
     actual = total_cpu(Plan("x", (Step("a", Stage.REPORT, "x"), Step("b", Stage.REPORT, "x"))))
     assert actual == 2
+
+
+def test_total_memory_mb_query() -> None:
+    from laborix.plan import Plan, Stage, Step
+    from laborix.plan_queries import total_memory_mb
+
+    actual = total_memory_mb(Plan("x", (Step("a", Stage.REPORT, "x"),)))
+    assert actual == 256

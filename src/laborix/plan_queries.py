@@ -52,3 +52,8 @@ def max_retry_attempts(plan: Plan):
 def total_cpu(plan: Plan):
     """Return the plan total cpu."""
     return sum(step.resources.cpu for step in plan.steps)  # noqa: E501
+
+
+def total_memory_mb(plan: Plan):
+    """Return the plan total memory mb."""
+    return sum(step.resources.memory_mb for step in plan.steps)  # noqa: E501
