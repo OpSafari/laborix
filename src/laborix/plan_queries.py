@@ -47,3 +47,8 @@ def output_count(plan: Plan):
 def max_retry_attempts(plan: Plan):
     """Return the plan max retry attempts."""
     return max((step.retry.attempts for step in plan.steps), default=0)  # noqa: E501
+
+
+def total_cpu(plan: Plan):
+    """Return the plan total cpu."""
+    return sum(step.resources.cpu for step in plan.steps)  # noqa: E501
