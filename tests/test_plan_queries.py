@@ -132,3 +132,11 @@ def test_operation_steps_query_is_stable() -> None:
     first = operation_steps(Plan("x", (Step("a", Stage.REPORT, "mean"),)), "mean")
     second = operation_steps(Plan("x", (Step("a", Stage.REPORT, "mean"),)), "mean")
     assert first == second
+
+
+def test_step_map_query() -> None:
+    from laborix.plan import Plan, Stage, Step
+    from laborix.plan_queries import step_map
+
+    actual = step_map(Plan("x", (Step("a", Stage.REPORT, "x"),)))
+    assert actual == {"a": Step("a", Stage.REPORT, "x")}

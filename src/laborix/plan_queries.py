@@ -67,3 +67,8 @@ def stage_steps(plan: Plan, stage: Stage):
 def operation_steps(plan: Plan, operation: str):
     """Return the plan operation steps."""
     return tuple(step.id for step in plan.steps if step.operation == operation)  # noqa: E501
+
+
+def step_map(plan: Plan):
+    """Return the plan step map."""
+    return {step.id: step for step in plan.steps}  # noqa: E501
