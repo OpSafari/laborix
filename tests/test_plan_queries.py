@@ -107,3 +107,11 @@ def test_total_memory_mb_query_is_stable() -> None:
     first = total_memory_mb(Plan("x", (Step("a", Stage.REPORT, "x"),)))
     second = total_memory_mb(Plan("x", (Step("a", Stage.REPORT, "x"),)))
     assert first == second
+
+
+def test_stage_steps_query() -> None:
+    from laborix.plan import Plan, Stage, Step
+    from laborix.plan_queries import stage_steps
+
+    actual = stage_steps(Plan("x", (Step("a", Stage.REPORT, "x"),)), Stage.REPORT)
+    assert actual == ("a",)

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from laborix.plan import Plan
+from laborix.plan import Plan, Stage
 
 
 def step_ids(plan: Plan):
@@ -57,3 +57,8 @@ def total_cpu(plan: Plan):
 def total_memory_mb(plan: Plan):
     """Return the plan total memory mb."""
     return sum(step.resources.memory_mb for step in plan.steps)  # noqa: E501
+
+
+def stage_steps(plan: Plan, stage: Stage):
+    """Return the plan stage steps."""
+    return tuple(step.id for step in plan.steps if step.stage is stage)  # noqa: E501
