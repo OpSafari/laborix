@@ -115,3 +115,11 @@ def test_stage_steps_query() -> None:
 
     actual = stage_steps(Plan("x", (Step("a", Stage.REPORT, "x"),)), Stage.REPORT)
     assert actual == ("a",)
+
+
+def test_operation_steps_query() -> None:
+    from laborix.plan import Plan, Stage, Step
+    from laborix.plan_queries import operation_steps
+
+    actual = operation_steps(Plan("x", (Step("a", Stage.REPORT, "mean"),)), "mean")
+    assert actual == ("a",)
