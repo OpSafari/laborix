@@ -163,3 +163,11 @@ def test_dependency_pairs_query_is_stable() -> None:
         Plan("x", (Step("a", Stage.REPORT, "x"), Step("b", Stage.REPORT, "x", ("a",))))
     )
     assert first == second
+
+
+def test_has_stage_query() -> None:
+    from laborix.plan import Plan, Stage, Step
+    from laborix.plan_queries import has_stage
+
+    actual = has_stage(Plan("x", (Step("a", Stage.REPORT, "x"),)), Stage.REPORT)
+    assert actual is True
