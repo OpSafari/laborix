@@ -22,3 +22,9 @@ def failed(records: Iterable[dict[str, Any]]):
     """Compute failed from ledger-shaped records."""
     records = tuple(records)
     return tuple(r for r in records if r.get("status") == "failed")
+
+
+def step_names(records: Iterable[dict[str, Any]]):
+    """Compute step names from ledger-shaped records."""
+    records = tuple(records)
+    return tuple(dict.fromkeys(str(r.get("step_id", "")) for r in records))

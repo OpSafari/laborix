@@ -28,3 +28,9 @@ def test_failed_accepts_iterators() -> None:
 
     values = [{"status": "success"}, {"status": "failed"}]
     assert failed(iter(values)) == failed(values)
+
+
+def test_step_names_records() -> None:
+    from laborix.records import step_names
+
+    assert step_names([{"step_id": "a"}, {"step_id": "a"}, {"step_id": "b"}]) == ("a", "b")
