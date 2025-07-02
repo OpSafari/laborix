@@ -28,3 +28,9 @@ def step_names(records: Iterable[dict[str, Any]]):
     """Compute step names from ledger-shaped records."""
     records = tuple(records)
     return tuple(dict.fromkeys(str(r.get("step_id", "")) for r in records))
+
+
+def attempt_total(records: Iterable[dict[str, Any]]):
+    """Compute attempt total from ledger-shaped records."""
+    records = tuple(records)
+    return sum(int(r.get("attempt", 0)) for r in records)
