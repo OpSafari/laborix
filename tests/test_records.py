@@ -21,3 +21,10 @@ def test_failed_records() -> None:
     from laborix.records import failed
 
     assert failed([{"status": "success"}, {"status": "failed"}]) == ({"status": "failed"},)
+
+
+def test_failed_accepts_iterators() -> None:
+    from laborix.records import failed
+
+    values = [{"status": "success"}, {"status": "failed"}]
+    assert failed(iter(values)) == failed(values)
