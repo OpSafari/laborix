@@ -40,3 +40,10 @@ def test_attempt_total_records() -> None:
     from laborix.records import attempt_total
 
     assert attempt_total([{"attempt": 1}, {"attempt": 2}]) == 3
+
+
+def test_attempt_total_accepts_iterators() -> None:
+    from laborix.records import attempt_total
+
+    values = [{"attempt": 1}, {"attempt": 2}]
+    assert attempt_total(iter(values)) == attempt_total(values)
