@@ -47,3 +47,9 @@ def test_attempt_total_accepts_iterators() -> None:
 
     values = [{"attempt": 1}, {"attempt": 2}]
     assert attempt_total(iter(values)) == attempt_total(values)
+
+
+def test_wall_total_records() -> None:
+    from laborix.records import wall_total
+
+    assert wall_total([{"wall_seconds": 1.5}, {"wall_seconds": 2.0}]) == 3.5

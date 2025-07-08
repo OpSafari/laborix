@@ -34,3 +34,9 @@ def attempt_total(records: Iterable[dict[str, Any]]):
     """Compute attempt total from ledger-shaped records."""
     records = tuple(records)
     return sum(int(r.get("attempt", 0)) for r in records)
+
+
+def wall_total(records: Iterable[dict[str, Any]]):
+    """Compute wall total from ledger-shaped records."""
+    records = tuple(records)
+    return sum(float(r.get("wall_seconds", 0)) for r in records)
