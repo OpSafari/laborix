@@ -59,3 +59,10 @@ def test_last_record_records() -> None:
     from laborix.records import last_record
 
     assert last_record([{"step_id": "a"}]) == {"step_id": "a"}
+
+
+def test_last_record_accepts_iterators() -> None:
+    from laborix.records import last_record
+
+    values = [{"step_id": "a"}]
+    assert last_record(iter(values)) == last_record(values)
