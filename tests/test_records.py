@@ -66,3 +66,9 @@ def test_last_record_accepts_iterators() -> None:
 
     values = [{"step_id": "a"}]
     assert last_record(iter(values)) == last_record(values)
+
+
+def test_record_count_records() -> None:
+    from laborix.records import record_count
+
+    assert record_count([{}, {}]) == 2
