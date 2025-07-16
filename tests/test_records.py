@@ -53,3 +53,9 @@ def test_wall_total_records() -> None:
     from laborix.records import wall_total
 
     assert wall_total([{"wall_seconds": 1.5}, {"wall_seconds": 2.0}]) == 3.5
+
+
+def test_last_record_records() -> None:
+    from laborix.records import last_record
+
+    assert last_record([{"step_id": "a"}]) == {"step_id": "a"}
