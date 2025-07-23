@@ -90,3 +90,10 @@ def test_code_versions_records() -> None:
     from laborix.records import code_versions
 
     assert code_versions([{"code_version": "b"}, {"code_version": "a"}]) == ("a", "b")
+
+
+def test_code_versions_accepts_iterators() -> None:
+    from laborix.records import code_versions
+
+    values = [{"code_version": "b"}, {"code_version": "a"}]
+    assert code_versions(iter(values)) == code_versions(values)
