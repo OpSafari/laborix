@@ -61,3 +61,9 @@ def status_counts(records: Iterable[dict[str, Any]]):
         status: sum(record.get("status") == status for record in records)
         for status in sorted({str(record.get("status")) for record in records})
     }
+
+
+def seeds(records: Iterable[dict[str, Any]]):
+    """Compute seeds from ledger-shaped records."""
+    records = tuple(records)
+    return tuple(int(r["seed"]) for r in records if "seed" in r)  # noqa: E501

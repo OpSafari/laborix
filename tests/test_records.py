@@ -78,3 +78,9 @@ def test_status_counts_records() -> None:
     from laborix.records import status_counts
 
     assert status_counts([{"status": "x"}, {"status": "x"}, {"status": "y"}]) == {"x": 2, "y": 1}
+
+
+def test_seeds_records() -> None:
+    from laborix.records import seeds
+
+    assert seeds([{"seed": 2}, {}, {"seed": 4}]) == (2, 4)
