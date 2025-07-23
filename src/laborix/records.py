@@ -52,3 +52,12 @@ def record_count(records: Iterable[dict[str, Any]]):
     """Compute record count from ledger-shaped records."""
     records = tuple(records)
     return sum(1 for _ in records)
+
+
+def status_counts(records: Iterable[dict[str, Any]]):
+    """Compute status counts from ledger-shaped records."""
+    records = tuple(records)
+    return {  # noqa: E501
+        status: sum(record.get("status") == status for record in records)
+        for status in sorted({str(record.get("status")) for record in records})
+    }
