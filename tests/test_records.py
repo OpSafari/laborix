@@ -84,3 +84,9 @@ def test_seeds_records() -> None:
     from laborix.records import seeds
 
     assert seeds([{"seed": 2}, {}, {"seed": 4}]) == (2, 4)
+
+
+def test_code_versions_records() -> None:
+    from laborix.records import code_versions
+
+    assert code_versions([{"code_version": "b"}, {"code_version": "a"}]) == ("a", "b")

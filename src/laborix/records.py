@@ -67,3 +67,9 @@ def seeds(records: Iterable[dict[str, Any]]):
     """Compute seeds from ledger-shaped records."""
     records = tuple(records)
     return tuple(int(r["seed"]) for r in records if "seed" in r)  # noqa: E501
+
+
+def code_versions(records: Iterable[dict[str, Any]]):
+    """Compute code versions from ledger-shaped records."""
+    records = tuple(records)
+    return tuple(sorted({str(r.get("code_version")) for r in records}))  # noqa: E501
