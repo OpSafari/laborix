@@ -32,8 +32,8 @@ line-length = 100
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501", "E701", "E702"]
 
 [tool.mypy]
 strict = true
 packages = ["laborix"]
-
