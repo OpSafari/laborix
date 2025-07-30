@@ -110,3 +110,10 @@ def test_latest_by_step_records() -> None:
 
     records = [{"step_id": "a", "attempt": 1}, {"step_id": "a", "attempt": 2}]
     assert latest_by_step(records) == {"a": {"step_id": "a", "attempt": 2}}
+
+
+def test_attempts_by_step_records() -> None:
+    from laborix.records import attempts_by_step
+
+    actual = attempts_by_step([{"step_id": "a"}, {"step_id": "a"}])
+    assert actual == {"a": 2}
