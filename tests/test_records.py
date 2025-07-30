@@ -103,3 +103,10 @@ def test_output_hashes_records() -> None:
     from laborix.records import output_hashes
 
     assert output_hashes([{"outputs_hash": "a"}, {"outputs_hash": None}]) == ("a",)
+
+
+def test_latest_by_step_records() -> None:
+    from laborix.records import latest_by_step
+
+    records = [{"step_id": "a", "attempt": 1}, {"step_id": "a", "attempt": 2}]
+    assert latest_by_step(records) == {"a": {"step_id": "a", "attempt": 2}}

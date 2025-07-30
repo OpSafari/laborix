@@ -79,3 +79,9 @@ def output_hashes(records: Iterable[dict[str, Any]]):
     """Compute output hashes from ledger-shaped records."""
     records = tuple(records)
     return tuple(str(r["outputs_hash"]) for r in records if r.get("outputs_hash"))  # noqa: E501
+
+
+def latest_by_step(records: Iterable[dict[str, Any]]):
+    """Compute latest by step from ledger-shaped records."""
+    records = tuple(records)
+    return {str(r["step_id"]): r for r in records}  # noqa: E501
