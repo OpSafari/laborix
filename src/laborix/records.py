@@ -94,3 +94,9 @@ def attempts_by_step(records: Iterable[dict[str, Any]]):
         s: sum(r.get("step_id") == s for r in records)
         for s in sorted({str(r.get("step_id")) for r in records})
     }  # noqa: E501
+
+
+def has_failures(records: Iterable[dict[str, Any]]):
+    """Compute has failures from ledger-shaped records."""
+    records = tuple(records)
+    return any(r.get("status") == "failed" for r in records)  # noqa: E501

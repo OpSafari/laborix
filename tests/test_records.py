@@ -117,3 +117,10 @@ def test_attempts_by_step_records() -> None:
 
     actual = attempts_by_step([{"step_id": "a"}, {"step_id": "a"}])
     assert actual == {"a": 2}
+
+
+def test_has_failures_records() -> None:
+    from laborix.records import has_failures
+
+    actual = has_failures([{"status": "failed"}])
+    assert actual is True
