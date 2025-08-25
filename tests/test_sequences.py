@@ -21,3 +21,12 @@ def test_last_contract() -> None:
     actual = last(["a", "b"])
     assert actual == "b"
     assert actual == last(["a", "b"])
+
+
+def test_last_result_has_stable_representation() -> None:
+    from laborix.sequences import last
+
+    result_one = last(["a", "b"])
+    result_two = last(["a", "b"])
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
