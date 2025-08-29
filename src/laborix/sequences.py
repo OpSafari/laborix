@@ -13,3 +13,8 @@ def first(values: Sequence[object]):
 def last(values: Sequence[object]):
     """Return a deterministic last value."""
     return values[-1]  # noqa: E501
+
+
+def pairwise(values: Sequence[object]):
+    """Return a deterministic pairwise value."""
+    return tuple(zip(values, values[1:], strict=False))  # noqa: E501
