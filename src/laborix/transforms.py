@@ -13,3 +13,8 @@ def clamp01(value: float):
 def percent(value: float):
     """Return a deterministic percent value."""
     return value * 100.0  # noqa: E501
+
+
+def square(value: float):
+    """Return a deterministic square value."""
+    return value * value  # noqa: E501
