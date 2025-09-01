@@ -38,3 +38,12 @@ def test_without_none_contract() -> None:
     actual = without_none({"a": 1, "b": None})
     assert actual == {"a": 1}
     assert actual == without_none({"a": 1, "b": None})
+
+
+def test_without_none_result_has_stable_representation() -> None:
+    from laborix.mappings import without_none
+
+    result_one = without_none({"a": 1, "b": None})
+    result_two = without_none({"a": 1, "b": None})
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
