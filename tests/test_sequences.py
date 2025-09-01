@@ -38,3 +38,11 @@ def test_pairwise_contract() -> None:
     actual = pairwise([1, 2, 3])
     assert actual == ((1, 2), (2, 3))
     assert actual == pairwise([1, 2, 3])
+
+
+def test_deduplicate_contract() -> None:
+    from laborix.sequences import deduplicate
+
+    actual = deduplicate([1, 2, 1, 3])
+    assert actual == (1, 2, 3)
+    assert actual == deduplicate([1, 2, 1, 3])
