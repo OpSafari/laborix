@@ -19,3 +19,8 @@ def sorted_items(value: dict[str, Any]):
 def without_none(value: dict[str, Any]):
     """Return a deterministic without none value."""
     return {k: v for k, v in value.items() if v is not None}  # noqa: E501
+
+
+def select_keys(value: dict[str, Any], keys: Sequence[str]):
+    """Return a deterministic select keys value."""
+    return {k: value[k] for k in keys if k in value}  # noqa: E501
