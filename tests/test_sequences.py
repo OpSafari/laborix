@@ -46,3 +46,12 @@ def test_deduplicate_contract() -> None:
     actual = deduplicate([1, 2, 1, 3])
     assert actual == (1, 2, 3)
     assert actual == deduplicate([1, 2, 1, 3])
+
+
+def test_deduplicate_result_has_stable_representation() -> None:
+    from laborix.sequences import deduplicate
+
+    result_one = deduplicate([1, 2, 1, 3])
+    result_two = deduplicate([1, 2, 1, 3])
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
