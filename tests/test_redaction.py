@@ -19,3 +19,12 @@ def test_redact_sequence_descends_into_items() -> None:
     from laborix.redaction import redact_sequence
 
     assert redact_sequence([{"secret": "x"}, {"ok": 1}]) == [{"secret": "[REDACTED]"}, {"ok": 1}]
+
+
+def test_assert_no_secrets_reports_nested_path() -> None:
+    import pytest
+
+    from laborix.redaction import assert_no_secrets
+
+    with pytest.raises(ValueError, match=r"\$\.request\.api_key"):
+        assert_no_secrets({"request": {"api_key": "x"}})

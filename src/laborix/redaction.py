@@ -22,3 +22,15 @@ def redact(value: object) -> object:
 def redact_sequence(values: list[object] | tuple[object, ...]) -> list[object]:
     """Redact every value in a JSON-like sequence."""
     return [redact(item) for item in values]
+
+
+def assert_no_secrets(value: object, path: str = "$") -> None:
+    """Reject a nested payload whose keys could expose credentials."""
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if is_secret_key(str(key)):
+                raise ValueError(f"secret-like key at {path}.{key}")
+            assert_no_secrets(item, f"{path}.{key}")
+    elif isinstance(value, (list, tuple)):
+        for index, item in enumerate(value):
+            assert_no_secrets(item, f"{path}[{index}]")
