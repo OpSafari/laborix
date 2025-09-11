@@ -16,3 +16,9 @@ def test_manual_clock_advances_and_rejects_negative_time() -> None:
     assert clock.now() == 3.5
     with pytest.raises(ValueError, match="backwards"):
         clock.advance(-0.1)
+
+
+def test_elapsed_seconds_never_negative() -> None:
+    from laborix.clock import ManualClock, elapsed_seconds
+
+    assert elapsed_seconds(ManualClock(1.0), 2.0) == 0.0
