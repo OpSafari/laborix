@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from enum import StrEnum
 
 
@@ -12,3 +13,9 @@ class Stage(StrEnum):
     EXPERIMENT = "experiment"
     ANALYSIS = "analysis"
     REPORT = "report"
+
+
+@dataclass(frozen=True)
+class Port:
+    name: str
+    kind: str = "json"
