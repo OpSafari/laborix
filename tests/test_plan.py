@@ -1,3 +1,6 @@
+import pytest
+
+from laborix.errors import ValidationError
 from laborix.plan import Stage
 
 
@@ -16,3 +19,11 @@ def test_port_defaults_to_json() -> None:
     from laborix.plan import Port
 
     assert Port("metrics").kind == "json"
+
+
+def test_resources_require_positive_limits() -> None:
+    from laborix.plan import Resources
+
+    Resources().validate()
+    with pytest.raises(ValidationError, match="positive"):
+        Resources(cpu=0).validate()
