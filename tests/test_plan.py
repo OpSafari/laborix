@@ -36,3 +36,12 @@ def test_retry_policy_checks_ceiling_and_jitter() -> None:
         RetryPolicy(0).validate()
     with pytest.raises(ValidationError, match="timing"):
         RetryPolicy(jitter=1.1).validate()
+
+
+def test_step_defaults_are_isolated() -> None:
+    from laborix.plan import Step
+
+    left = Step("a", Stage.EXPERIMENT, "noop")
+    right = Step("b", Stage.REPORT, "noop")
+    left.config["x"] = 1
+    assert right.config == {}
