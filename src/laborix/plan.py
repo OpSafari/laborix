@@ -32,3 +32,16 @@ class Resources:
     def validate(self) -> None:
         if self.cpu < 1 or self.memory_mb < 1 or self.wall_seconds <= 0:
             raise ValidationError("resources must be positive")
+
+
+@dataclass(frozen=True)
+class RetryPolicy:
+    attempts: int = 1
+    delay_seconds: float = 0.0
+    jitter: float = 0.0
+
+    def validate(self) -> None:
+        if self.attempts < 1:
+            raise ValidationError("retry attempts must be at least one")
+        if self.delay_seconds < 0 or not 0 <= self.jitter <= 1:
+            raise ValidationError("invalid retry timing")
