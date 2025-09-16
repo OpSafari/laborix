@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from enum import StrEnum
 from typing import Any
@@ -67,3 +68,14 @@ class Plan:
     steps: tuple[Step, ...]
     schema_version: str = "2.0"
     seed: int = 0
+
+
+def _ids(plan: Plan) -> dict[str, Step]:
+    result: dict[str, Step] = {}
+    for step in plan.steps:
+        if not re.fullmatch(r"[a-z][a-z0-9_-]*", step.id):
+            raise ValidationError(f"invalid step id: {step.id}")
+        if step.id in result:
+            raise ValidationError(f"duplicate step id: {step.id}")
+        result[step.id] = step
+    return result
