@@ -55,3 +55,11 @@ def test_deduplicate_result_has_stable_representation() -> None:
     result_two = deduplicate([1, 2, 1, 3])
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_chunks_contract() -> None:
+    from laborix.sequences import chunks
+
+    actual = chunks([1, 2, 3, 4, 5], 2)
+    assert actual == ((1, 2), (3, 4), (5,))
+    assert actual == chunks([1, 2, 3, 4, 5], 2)
