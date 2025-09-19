@@ -64,3 +64,11 @@ def test_select_keys_result_has_stable_representation() -> None:
     result_two = select_keys({"a": 1, "b": 2}, ["b"])
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_rename_key_contract() -> None:
+    from laborix.mappings import rename_key
+
+    actual = rename_key({"old": 1}, "old", "new")
+    assert actual == {"new": 1}
+    assert actual == rename_key({"old": 1}, "old", "new")
