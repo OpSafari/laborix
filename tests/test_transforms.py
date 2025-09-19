@@ -72,3 +72,12 @@ def test_safe_ratio_contract() -> None:
     actual = safe_ratio(3.0, 2.0)
     assert actual == 1.5
     assert actual == safe_ratio(3.0, 2.0)
+
+
+def test_safe_ratio_result_has_stable_representation() -> None:
+    from laborix.transforms import safe_ratio
+
+    result_one = safe_ratio(3.0, 2.0)
+    result_two = safe_ratio(3.0, 2.0)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
