@@ -70,3 +70,11 @@ def test_topological_order_is_stable_and_rejects_dangling() -> None:
     assert topological_order(Plan("x", steps)) == ("a", "b")
     with pytest.raises(ValidationError, match="dangling dependency: z"):
         topological_order(Plan("x", (Step("a", Stage.REPORT, "x", ("z",)),)))
+
+
+def test_topological_order_reports_cycles() -> None:
+    from laborix.plan import Plan, Step, topological_order
+
+    steps = (Step("a", Stage.EXPERIMENT, "x", ("b",)), Step("b", Stage.ANALYSIS, "x", ("a",)))
+    with pytest.raises(ValidationError, match="cycle among: a, b"):
+        topological_order(Plan("x", steps))
