@@ -177,3 +177,20 @@ def migrate_plan(value: dict[str, Any]) -> dict[str, Any]:
     if version != "2.0":
         raise ValidationError(f"unsupported schema version: {version}")
     return migrated
+
+
+@dataclass(frozen=True)
+class PlanDiff:
+    added: tuple[str, ...]
+    removed: tuple[str, ...]
+    changed: tuple[str, ...]
+
+
+def diff_plans(before: Plan, after: Plan) -> PlanDiff:
+    left = {s.id: s for s in before.steps}
+    right = {s.id: s for s in after.steps}
+    return PlanDiff(
+        tuple(sorted(right.keys() - left.keys())),
+        tuple(sorted(left.keys() - right.keys())),
+        tuple(sorted(k for k in left.keys() & right.keys() if left[k] != right[k])),
+    )
