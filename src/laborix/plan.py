@@ -162,3 +162,18 @@ def plan_from_json(text: str) -> Plan:
     if not isinstance(value, dict):
         raise ValidationError("plan JSON root must be an object")
     return plan_from_dict(value)
+
+
+def migrate_plan(value: dict[str, Any]) -> dict[str, Any]:
+    migrated = json.loads(json.dumps(value))
+    version = str(migrated.get("schema_version", "1.0"))
+    if version == "1.0":
+        migrated["schema_version"] = "2.0"
+        migrated.setdefault("seed", 0)
+        for step in migrated.get("steps", []):
+            step.setdefault("resources", {})
+            step.setdefault("retry", {})
+        return migrated
+    if version != "2.0":
+        raise ValidationError(f"unsupported schema version: {version}")
+    return migrated
