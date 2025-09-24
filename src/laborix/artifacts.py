@@ -27,3 +27,9 @@ class ArtifactStore:
         if not path.exists():
             path.write_bytes(data)
         return ArtifactRef(digest, len(data), media_type)
+
+    def get_bytes(self, ref: ArtifactRef) -> bytes:
+        data = (self.root / ref.digest[:2] / ref.digest[2:]).read_bytes()
+        if len(data) != ref.size or bytes_digest([data]) != ref.digest:
+            raise ValueError(f"artifact integrity failure: {ref.digest}")
+        return data
