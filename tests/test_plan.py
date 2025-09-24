@@ -122,3 +122,10 @@ def test_plan_diff_classifies_step_changes() -> None:
     assert diff_plans(before, after).added == ("new",)
     assert diff_plans(before, after).removed == ("gone",)
     assert diff_plans(before, after).changed == ("a",)
+
+
+def test_plan_public_exports_are_available() -> None:
+    import laborix
+
+    for name in ("Plan", "Port", "Resources", "RetryPolicy", "Stage", "Step", "validate_plan"):
+        assert name in laborix.__all__
