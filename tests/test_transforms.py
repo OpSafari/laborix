@@ -81,3 +81,13 @@ def test_safe_ratio_result_has_stable_representation() -> None:
     result_two = safe_ratio(3.0, 2.0)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_log1p_positive_contract() -> None:
+    import math
+
+    from laborix.transforms import log1p_positive
+
+    actual = log1p_positive(math.e - 1)
+    assert actual == 1.0
+    assert actual == log1p_positive(math.e - 1)

@@ -28,3 +28,8 @@ def signed_sqrt(value: float):
 def safe_ratio(numerator: float, denominator: float):
     """Return a deterministic safe ratio value."""
     return 0.0 if denominator == 0 else numerator / denominator  # noqa: E501
+
+
+def log1p_positive(value: float):
+    """Return a deterministic log1p positive value."""
+    return math.log1p(max(0.0, value))  # noqa: E501
