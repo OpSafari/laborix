@@ -72,3 +72,12 @@ def test_rename_key_contract() -> None:
     actual = rename_key({"old": 1}, "old", "new")
     assert actual == {"new": 1}
     assert actual == rename_key({"old": 1}, "old", "new")
+
+
+def test_rename_key_result_has_stable_representation() -> None:
+    from laborix.mappings import rename_key
+
+    result_one = rename_key({"old": 1}, "old", "new")
+    result_two = rename_key({"old": 1}, "old", "new")
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
