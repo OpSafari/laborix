@@ -62,3 +62,6 @@ class Ledger:
                 return False, f"record {index} content hash mismatch"
             previous = str(claimed)
         return True, "ok"
+
+    def successful_steps(self) -> dict[str, dict[str, Any]]:
+        return {str(r["step_id"]): r for r in self.records() if r["status"] == "success"}
