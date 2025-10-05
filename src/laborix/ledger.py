@@ -49,3 +49,16 @@ class Ledger:
         with self.path.open("a", encoding="utf-8") as out:
             out.write(json.dumps(raw, sort_keys=True, separators=(",", ":")) + "\n")
         return raw
+
+    def verify(self) -> tuple[bool, str]:
+        previous = "0" * 64
+        for index, raw in enumerate(self.records(), 1):
+            if raw.get("previous_hash") != previous:
+                return False, f"record {index} previous hash mismatch"
+            claimed = raw.get("record_hash")
+            candidate = dict(raw)
+            candidate["record_hash"] = ""
+            if claimed != value_digest(candidate):
+                return False, f"record {index} content hash mismatch"
+            previous = str(claimed)
+        return True, "ok"
