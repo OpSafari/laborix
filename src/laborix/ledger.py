@@ -4,9 +4,12 @@ from __future__ import annotations
 
 import json
 from collections.abc import Iterator
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
+
+from laborix.hashing import value_digest
+from laborix.redaction import assert_no_secrets
 
 
 @dataclass(frozen=True)
@@ -35,3 +38,14 @@ class Ledger:
         for line in self.path.read_text().splitlines():
             if line:
                 yield json.loads(line)
+
+    def append(self, record: LedgerRecord) -> dict[str, Any]:
+        raw = asdict(record)
+        assert_no_secrets(raw)
+        prior = list(self.records())
+        raw["previous_hash"] = prior[-1]["record_hash"] if prior else "0" * 64
+        raw["record_hash"] = ""
+        raw["record_hash"] = value_digest(raw)
+        with self.path.open("a", encoding="utf-8") as out:
+            out.write(json.dumps(raw, sort_keys=True, separators=(",", ":")) + "\n")
+        return raw
