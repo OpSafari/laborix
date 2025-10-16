@@ -81,3 +81,11 @@ def test_rename_key_result_has_stable_representation() -> None:
     result_two = rename_key({"old": 1}, "old", "new")
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_invert_unique_contract() -> None:
+    from laborix.mappings import invert_unique
+
+    actual = invert_unique({"a": 1, "b": 2})
+    assert actual == {1: "a", 2: "b"}
+    assert actual == invert_unique({"a": 1, "b": 2})
