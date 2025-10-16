@@ -28,3 +28,8 @@ def deduplicate(values: Sequence[object]):
 def chunks(values: Sequence[object], size: int):
     """Return a deterministic chunks value."""
     return tuple(tuple(values[i : i + size]) for i in range(0, len(values), size))  # noqa: E501
+
+
+def rotate_left(values: Sequence[object], count: int):
+    """Return a deterministic rotate left value."""
+    return tuple(values[count % len(values) :]) + tuple(values[: count % len(values)])  # noqa: E501

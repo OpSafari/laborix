@@ -72,3 +72,11 @@ def test_chunks_result_has_stable_representation() -> None:
     result_two = chunks([1, 2, 3, 4, 5], 2)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_rotate_left_contract() -> None:
+    from laborix.sequences import rotate_left
+
+    actual = rotate_left([1, 2, 3], 1)
+    assert actual == (2, 3, 1)
+    assert actual == rotate_left([1, 2, 3], 1)
