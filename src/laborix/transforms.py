@@ -33,3 +33,8 @@ def safe_ratio(numerator: float, denominator: float):
 def log1p_positive(value: float):
     """Return a deterministic log1p positive value."""
     return math.log1p(max(0.0, value))  # noqa: E501
+
+
+def center(value: float, baseline: float):
+    """Return a deterministic center value."""
+    return value - baseline  # noqa: E501

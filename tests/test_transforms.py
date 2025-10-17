@@ -102,3 +102,11 @@ def test_log1p_positive_result_has_stable_representation() -> None:
     result_two = log1p_positive(math.e - 1)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_center_contract() -> None:
+    from laborix.transforms import center
+
+    actual = center(8.0, 3.0)
+    assert actual == 5.0
+    assert actual == center(8.0, 3.0)
