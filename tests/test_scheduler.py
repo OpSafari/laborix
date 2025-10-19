@@ -54,3 +54,11 @@ def test_sliding_ucb_forgets_old_observations() -> None:
     p.update(1, 0)
     p.update(1, 1)
     assert p.select() == 0
+
+
+def test_schedule_never_exceeds_run_budget() -> None:
+    from laborix.scheduler import UCB1, Budget, schedule
+
+    trace = schedule(StationarySurface((0.2, 0.8)), UCB1(2), Budget(7), 3)
+    assert len(trace) == 7
+    assert [x.run for x in trace] == list(range(7))
