@@ -14,3 +14,15 @@ def test_budget_enforces_both_limits() -> None:
     assert b.allows(2, 1.9)
     assert not b.allows(3, 0)
     assert not b.allows(0, 2.0)
+
+
+def test_ucb1_cold_starts_in_arm_order() -> None:
+    from laborix.scheduler import UCB1
+
+    p = UCB1(3)
+    seen = []
+    for reward in (0.1, 0.9, 0.2):
+        a = p.select()
+        seen.append(a)
+        p.update(a, reward)
+    assert seen == [0, 1, 2]
