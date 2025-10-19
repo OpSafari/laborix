@@ -62,3 +62,22 @@ class UCB1:
     def update(self, arm: int, reward: float) -> None:
         self.counts[arm] += 1
         self.totals[arm] += reward
+
+
+@dataclass
+class Thompson:
+    arms: int
+    seed: int = 0
+
+    def __post_init__(self) -> None:
+        self.alpha = [1.0] * self.arms
+        self.beta = [1.0] * self.arms
+        self.rng = np.random.default_rng(self.seed)
+
+    def select(self) -> int:
+        return int(np.argmax(self.rng.beta(self.alpha, self.beta)))
+
+    def update(self, arm: int, reward: float) -> None:
+        clipped = min(1.0, max(0.0, reward))
+        self.alpha[arm] += clipped
+        self.beta[arm] += 1 - clipped
