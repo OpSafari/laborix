@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from itertools import product
 from typing import Any
 
@@ -61,3 +62,14 @@ def bootstrap_ci(
     means = np.mean(rng.choice(data, (samples, len(data)), replace=True), axis=1)
     tail = (1 - level) / 2
     return float(np.quantile(means, tail)), float(np.quantile(means, 1 - tail))
+
+
+@dataclass(frozen=True)
+class ResultTable:
+    columns: tuple[str, ...]
+    rows: tuple[tuple[Any, ...], ...]
+
+
+def result_table(records: list[dict[str, Any]]) -> ResultTable:
+    columns = tuple(sorted({key for row in records for key in row}))
+    return ResultTable(columns, tuple(tuple(row.get(key) for key in columns) for row in records))

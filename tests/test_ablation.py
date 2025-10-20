@@ -44,3 +44,11 @@ def test_bootstrap_ci_is_seeded_and_contains_constant() -> None:
     assert bootstrap_ci((2.0, 2.0), 4, 100) == (2.0, 2.0)
     with pytest.raises(ValueError, match="empty"):
         bootstrap_ci(())
+
+
+def test_result_table_aligns_sparse_rows() -> None:
+    from laborix.ablation import result_table
+
+    table = result_table([{"b": 2}, {"a": 1, "b": 3}])
+    assert table.columns == ("a", "b")
+    assert table.rows == ((None, 2), (1, 3))
