@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from collections.abc import Sequence
 
 
@@ -13,3 +14,8 @@ def arithmetic_mean(values: Sequence[float]):
 def mean_absolute_error(actual: Sequence[float], predicted: Sequence[float]):
     """Compute mean absolute error for synthetic measurements."""
     return sum(abs(a - b) for a, b in zip(actual, predicted, strict=True)) / len(actual)
+
+
+def root_mean_square(values: Sequence[float]):
+    """Compute root mean square for synthetic measurements."""
+    return math.sqrt(sum(x * x for x in values) / len(values))
