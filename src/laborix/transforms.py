@@ -38,3 +38,8 @@ def log1p_positive(value: float):
 def center(value: float, baseline: float):
     """Return a deterministic center value."""
     return value - baseline  # noqa: E501
+
+
+def unit_interval(value: float, low: float, high: float):
+    """Return a deterministic unit interval value."""
+    return (value - low) / (high - low)  # noqa: E501
