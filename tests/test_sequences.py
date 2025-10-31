@@ -106,3 +106,11 @@ def test_interleave_result_has_stable_representation() -> None:
     result_two = interleave([1, 2], ["a", "b"])
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_take_contract() -> None:
+    from laborix.sequences import take
+
+    actual = take([1, 2, 3], 2)
+    assert actual == (1, 2)
+    assert actual == take([1, 2, 3], 2)
