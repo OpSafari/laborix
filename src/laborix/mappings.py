@@ -34,3 +34,8 @@ def rename_key(value: dict[str, Any], old: str, new: str):
 def invert_unique(value: dict[str, Any]):
     """Return a deterministic invert unique value."""
     return {v: k for k, v in value.items()}  # noqa: E501
+
+
+def prefix_keys(value: dict[str, Any], prefix: str):
+    """Return a deterministic prefix keys value."""
+    return {prefix + k: v for k, v in value.items()}  # noqa: E501
