@@ -89,3 +89,11 @@ def test_rotate_left_result_has_stable_representation() -> None:
     result_two = rotate_left([1, 2, 3], 1)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_interleave_contract() -> None:
+    from laborix.sequences import interleave
+
+    actual = interleave([1, 2], ["a", "b"])
+    assert actual == (1, "a", 2, "b")
+    assert actual == interleave([1, 2], ["a", "b"])
