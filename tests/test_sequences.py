@@ -114,3 +114,12 @@ def test_take_contract() -> None:
     actual = take([1, 2, 3], 2)
     assert actual == (1, 2)
     assert actual == take([1, 2, 3], 2)
+
+
+def test_take_result_has_stable_representation() -> None:
+    from laborix.sequences import take
+
+    result_one = take([1, 2, 3], 2)
+    result_two = take([1, 2, 3], 2)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
