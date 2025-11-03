@@ -115,3 +115,11 @@ def test_prefix_keys_result_has_stable_representation() -> None:
     result_two = prefix_keys({"a": 1}, "run.")
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_merge_right_contract() -> None:
+    from laborix.mappings import merge_right
+
+    actual = merge_right({"a": 1}, {"a": 2, "b": 3})
+    assert actual == {"a": 2, "b": 3}
+    assert actual == merge_right({"a": 1}, {"a": 2, "b": 3})
