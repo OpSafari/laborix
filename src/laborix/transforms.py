@@ -43,3 +43,8 @@ def center(value: float, baseline: float):
 def unit_interval(value: float, low: float, high: float):
     """Return a deterministic unit interval value."""
     return (value - low) / (high - low)  # noqa: E501
+
+
+def quantize(value: float, quantum: float):
+    """Return a deterministic quantize value."""
+    return round(value / quantum) * quantum  # noqa: E501
