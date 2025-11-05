@@ -24,3 +24,8 @@ def root_mean_square(values: Sequence[float]):
 def minimum(values: Sequence[float]):
     """Compute minimum for synthetic measurements."""
     return min(values)
+
+
+def maximum(values: Sequence[float]):
+    """Compute maximum for synthetic measurements."""
+    return max(values)
