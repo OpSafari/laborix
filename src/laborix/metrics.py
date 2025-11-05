@@ -19,3 +19,8 @@ def mean_absolute_error(actual: Sequence[float], predicted: Sequence[float]):
 def root_mean_square(values: Sequence[float]):
     """Compute root mean square for synthetic measurements."""
     return math.sqrt(sum(x * x for x in values) / len(values))
+
+
+def minimum(values: Sequence[float]):
+    """Compute minimum for synthetic measurements."""
+    return min(values)
