@@ -44,3 +44,8 @@ def prefix_keys(value: dict[str, Any], prefix: str):
 def merge_right(left: dict[str, Any], right: dict[str, Any]):
     """Return a deterministic merge right value."""
     return {**left, **right}  # noqa: E501
+
+
+def common_keys(left: dict[str, Any], right: dict[str, Any]):
+    """Return a deterministic common keys value."""
+    return tuple(sorted(left.keys() & right.keys()))  # noqa: E501
