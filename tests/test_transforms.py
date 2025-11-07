@@ -153,3 +153,11 @@ def test_quantize_result_has_stable_representation() -> None:
     result_two = quantize(1.24, 0.5)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_bounded_exp_contract() -> None:
+    from laborix.transforms import bounded_exp
+
+    actual = bounded_exp(10.0, 0.0)
+    assert actual == 1.0
+    assert actual == bounded_exp(10.0, 0.0)
