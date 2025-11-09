@@ -29,3 +29,8 @@ def minimum(values: Sequence[float]):
 def maximum(values: Sequence[float]):
     """Compute maximum for synthetic measurements."""
     return max(values)
+
+
+def value_range(values: Sequence[float]):
+    """Compute value range for synthetic measurements."""
+    return max(values) - min(values)
