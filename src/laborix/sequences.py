@@ -48,3 +48,8 @@ def take(values: Sequence[object], count: int):
 def drop(values: Sequence[object], count: int):
     """Return a deterministic drop value."""
     return tuple(values[max(0, count) :])  # noqa: E501
+
+
+def flatten_once(values: Sequence[Sequence[object]]):
+    """Return a deterministic flatten once value."""
+    return tuple(x for group in values for x in group)  # noqa: E501

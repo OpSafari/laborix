@@ -140,3 +140,11 @@ def test_drop_result_has_stable_representation() -> None:
     result_two = drop([1, 2, 3], 1)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_flatten_once_contract() -> None:
+    from laborix.sequences import flatten_once
+
+    actual = flatten_once([[1, 2], [3]])
+    assert actual == (1, 2, 3)
+    assert actual == flatten_once([[1, 2], [3]])
