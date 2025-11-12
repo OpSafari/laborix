@@ -74,3 +74,9 @@ def test_harmonic_mean_is_repeatable() -> None:
     from laborix.metrics import harmonic_mean
 
     assert harmonic_mean([1.0, 2.0]) == harmonic_mean([1.0, 2.0])
+
+
+def test_sum_squares_example() -> None:
+    from laborix.metrics import sum_squares
+
+    assert sum_squares([2.0, 3.0]) == 13.0

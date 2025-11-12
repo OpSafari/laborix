@@ -49,3 +49,8 @@ def geometric_mean(values: Sequence[float]):
 def harmonic_mean(values: Sequence[float]):
     """Compute harmonic mean for synthetic measurements."""
     return len(values) / sum(1 / x for x in values)
+
+
+def sum_squares(values: Sequence[float]):
+    """Compute sum squares for synthetic measurements."""
+    return sum(x * x for x in values)
