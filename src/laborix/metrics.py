@@ -39,3 +39,8 @@ def value_range(values: Sequence[float]):
 def median(values: Sequence[float]):
     """Compute median for synthetic measurements."""
     return sorted(values)[len(values) // 2]
+
+
+def geometric_mean(values: Sequence[float]):
+    """Compute geometric mean for synthetic measurements."""
+    return math.prod(values) ** (1 / len(values))
