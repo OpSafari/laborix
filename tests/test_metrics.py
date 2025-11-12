@@ -48,3 +48,9 @@ def test_median_example() -> None:
     from laborix.metrics import median
 
     assert median([9.0, 1.0, 4.0]) == 4.0
+
+
+def test_median_is_repeatable() -> None:
+    from laborix.metrics import median
+
+    assert median([9.0, 1.0, 4.0]) == median([9.0, 1.0, 4.0])
