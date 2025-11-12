@@ -34,3 +34,8 @@ def maximum(values: Sequence[float]):
 def value_range(values: Sequence[float]):
     """Compute value range for synthetic measurements."""
     return max(values) - min(values)
+
+
+def median(values: Sequence[float]):
+    """Compute median for synthetic measurements."""
+    return sorted(values)[len(values) // 2]
