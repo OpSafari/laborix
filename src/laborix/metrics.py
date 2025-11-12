@@ -44,3 +44,8 @@ def median(values: Sequence[float]):
 def geometric_mean(values: Sequence[float]):
     """Compute geometric mean for synthetic measurements."""
     return math.prod(values) ** (1 / len(values))
+
+
+def harmonic_mean(values: Sequence[float]):
+    """Compute harmonic mean for synthetic measurements."""
+    return len(values) / sum(1 / x for x in values)
