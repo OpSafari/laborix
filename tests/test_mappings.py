@@ -157,3 +157,12 @@ def test_changed_keys_contract() -> None:
     actual = changed_keys({"a": 1, "b": 2}, {"a": 1, "b": 3})
     assert actual == ("b",)
     assert actual == changed_keys({"a": 1, "b": 2}, {"a": 1, "b": 3})
+
+
+def test_changed_keys_result_has_stable_representation() -> None:
+    from laborix.mappings import changed_keys
+
+    result_one = changed_keys({"a": 1, "b": 2}, {"a": 1, "b": 3})
+    result_two = changed_keys({"a": 1, "b": 2}, {"a": 1, "b": 3})
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
