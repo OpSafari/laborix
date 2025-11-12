@@ -149,3 +149,11 @@ def test_common_keys_result_has_stable_representation() -> None:
     result_two = common_keys({"a": 1, "b": 2}, {"b": 3})
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_changed_keys_contract() -> None:
+    from laborix.mappings import changed_keys
+
+    actual = changed_keys({"a": 1, "b": 2}, {"a": 1, "b": 3})
+    assert actual == ("b",)
+    assert actual == changed_keys({"a": 1, "b": 2}, {"a": 1, "b": 3})
