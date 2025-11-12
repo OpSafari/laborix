@@ -178,3 +178,12 @@ def test_absolute_delta_contract() -> None:
     actual = absolute_delta(2.0, 5.5)
     assert actual == 3.5
     assert actual == absolute_delta(2.0, 5.5)
+
+
+def test_absolute_delta_result_has_stable_representation() -> None:
+    from laborix.transforms import absolute_delta
+
+    result_one = absolute_delta(2.0, 5.5)
+    result_two = absolute_delta(2.0, 5.5)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
