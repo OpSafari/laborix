@@ -53,3 +53,8 @@ def quantize(value: float, quantum: float):
 def bounded_exp(value: float, ceiling: float):
     """Return a deterministic bounded exp value."""
     return math.exp(min(value, ceiling))  # noqa: E501
+
+
+def absolute_delta(left: float, right: float):
+    """Return a deterministic absolute delta value."""
+    return abs(left - right)  # noqa: E501

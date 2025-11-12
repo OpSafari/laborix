@@ -170,3 +170,11 @@ def test_bounded_exp_result_has_stable_representation() -> None:
     result_two = bounded_exp(10.0, 0.0)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_absolute_delta_contract() -> None:
+    from laborix.transforms import absolute_delta
+
+    actual = absolute_delta(2.0, 5.5)
+    assert actual == 3.5
+    assert actual == absolute_delta(2.0, 5.5)
