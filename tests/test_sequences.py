@@ -157,3 +157,11 @@ def test_flatten_once_result_has_stable_representation() -> None:
     result_two = flatten_once([[1, 2], [3]])
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_index_map_contract() -> None:
+    from laborix.sequences import index_map
+
+    actual = index_map(["a", "b"])
+    assert actual == {"a": 0, "b": 1}
+    assert actual == index_map(["a", "b"])
