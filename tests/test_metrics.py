@@ -80,3 +80,9 @@ def test_sum_squares_example() -> None:
     from laborix.metrics import sum_squares
 
     assert sum_squares([2.0, 3.0]) == 13.0
+
+
+def test_l1_norm_example() -> None:
+    from laborix.metrics import l1_norm
+
+    assert l1_norm([-2.0, 3.0]) == 5.0
