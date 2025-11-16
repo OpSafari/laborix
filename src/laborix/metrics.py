@@ -74,3 +74,8 @@ def positive_rate(values: Sequence[float]):
 def zero_rate(values: Sequence[float]):
     """Compute zero rate for synthetic measurements."""
     return sum(x == 0 for x in values) / len(values)
+
+
+def clipped_mean(values: Sequence[float], low: float, high: float):
+    """Compute clipped mean for synthetic measurements."""
+    return sum(min(high, max(low, x)) for x in values) / len(values)

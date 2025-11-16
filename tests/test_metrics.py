@@ -116,3 +116,9 @@ def test_zero_rate_example() -> None:
     from laborix.metrics import zero_rate
 
     assert zero_rate([0.0, 1.0, 0.0, 2.0]) == 0.5
+
+
+def test_clipped_mean_example() -> None:
+    from laborix.metrics import clipped_mean
+
+    assert clipped_mean([-2.0, 2.0, 9.0], 0.0, 4.0) == 2.0
