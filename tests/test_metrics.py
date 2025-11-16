@@ -104,3 +104,9 @@ def test_positive_rate_example() -> None:
     from laborix.metrics import positive_rate
 
     assert positive_rate([-1.0, 0.0, 2.0, 3.0]) == 0.5
+
+
+def test_positive_rate_is_repeatable() -> None:
+    from laborix.metrics import positive_rate
+
+    assert positive_rate([-1.0, 0.0, 2.0, 3.0]) == positive_rate([-1.0, 0.0, 2.0, 3.0])
