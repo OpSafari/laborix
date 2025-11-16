@@ -64,3 +64,8 @@ def l1_norm(values: Sequence[float]):
 def l2_norm(values: Sequence[float]):
     """Compute l2 norm for synthetic measurements."""
     return math.sqrt(sum(x * x for x in values))
+
+
+def positive_rate(values: Sequence[float]):
+    """Compute positive rate for synthetic measurements."""
+    return sum(x > 0 for x in values) / len(values)
