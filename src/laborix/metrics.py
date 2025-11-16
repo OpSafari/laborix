@@ -59,3 +59,8 @@ def sum_squares(values: Sequence[float]):
 def l1_norm(values: Sequence[float]):
     """Compute l1 norm for synthetic measurements."""
     return sum(abs(x) for x in values)
+
+
+def l2_norm(values: Sequence[float]):
+    """Compute l2 norm for synthetic measurements."""
+    return math.sqrt(sum(x * x for x in values))
