@@ -122,3 +122,9 @@ def test_clipped_mean_example() -> None:
     from laborix.metrics import clipped_mean
 
     assert clipped_mean([-2.0, 2.0, 9.0], 0.0, 4.0) == 2.0
+
+
+def test_clipped_mean_is_repeatable() -> None:
+    from laborix.metrics import clipped_mean
+
+    assert clipped_mean([-2.0, 2.0, 9.0], 0.0, 4.0) == clipped_mean([-2.0, 2.0, 9.0], 0.0, 4.0)
