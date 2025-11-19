@@ -58,3 +58,8 @@ def bounded_exp(value: float, ceiling: float):
 def absolute_delta(left: float, right: float):
     """Return a deterministic absolute delta value."""
     return abs(left - right)  # noqa: E501
+
+
+def relative_error(actual: float, predicted: float):
+    """Return a deterministic relative error value."""
+    return abs(predicted - actual) / max(abs(actual), 1e-12)  # noqa: E501

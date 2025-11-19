@@ -187,3 +187,11 @@ def test_absolute_delta_result_has_stable_representation() -> None:
     result_two = absolute_delta(2.0, 5.5)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_relative_error_contract() -> None:
+    from laborix.transforms import relative_error
+
+    actual = relative_error(4.0, 5.0)
+    assert actual == 0.25
+    assert actual == relative_error(4.0, 5.0)
