@@ -140,3 +140,9 @@ def test_max_index_example() -> None:
     from laborix.metrics import max_index
 
     assert max_index([1.0, 9.0, 2.0]) == 1
+
+
+def test_max_index_is_repeatable() -> None:
+    from laborix.metrics import max_index
+
+    assert max_index([1.0, 9.0, 2.0]) == max_index([1.0, 9.0, 2.0])
