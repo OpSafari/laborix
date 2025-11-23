@@ -99,3 +99,8 @@ def min_index(values: Sequence[float]):
 def cumulative_sum(values: Sequence[float]):
     """Compute cumulative sum for synthetic measurements."""
     return tuple(__import__("itertools").accumulate(values))
+
+
+def relative_gain(baseline: float, candidate: float):
+    """Compute relative gain for synthetic measurements."""
+    return (candidate - baseline) / abs(baseline)
