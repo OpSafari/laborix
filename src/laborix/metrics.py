@@ -84,3 +84,8 @@ def clipped_mean(values: Sequence[float], low: float, high: float):
 def weighted_sum(values: Sequence[float], weights: Sequence[float]):
     """Compute weighted sum for synthetic measurements."""
     return sum(x * w for x, w in zip(values, weights, strict=True))
+
+
+def max_index(values: Sequence[float]):
+    """Compute max index for synthetic measurements."""
+    return max(range(len(values)), key=values.__getitem__)
