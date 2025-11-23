@@ -94,3 +94,8 @@ def max_index(values: Sequence[float]):
 def min_index(values: Sequence[float]):
     """Compute min index for synthetic measurements."""
     return min(range(len(values)), key=values.__getitem__)
+
+
+def cumulative_sum(values: Sequence[float]):
+    """Compute cumulative sum for synthetic measurements."""
+    return tuple(__import__("itertools").accumulate(values))
