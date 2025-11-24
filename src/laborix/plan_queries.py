@@ -13,3 +13,8 @@ def step_ids(plan: Plan):
 def operations(plan: Plan):
     """Return the plan operations."""
     return tuple(sorted({step.operation for step in plan.steps}))
+
+
+def dependency_count(plan: Plan):
+    """Return the plan dependency count."""
+    return sum(len(step.dependencies) for step in plan.steps)
