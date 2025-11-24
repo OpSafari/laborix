@@ -21,3 +21,13 @@ def test_dependency_count_query() -> None:
         Plan("x", (Step("a", Stage.REPORT, "x"), Step("b", Stage.REPORT, "x", ("a",))))
     )
     assert actual == 1
+
+
+def test_leaf_steps_query() -> None:
+    from laborix.plan import Plan, Stage, Step
+    from laborix.plan_queries import leaf_steps
+
+    actual = leaf_steps(
+        Plan("x", (Step("a", Stage.REPORT, "x"), Step("b", Stage.REPORT, "x", ("a",))))
+    )
+    assert actual == ("b",)

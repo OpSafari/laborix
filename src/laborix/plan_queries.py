@@ -18,3 +18,12 @@ def operations(plan: Plan):
 def dependency_count(plan: Plan):
     """Return the plan dependency count."""
     return sum(len(step.dependencies) for step in plan.steps)
+
+
+def leaf_steps(plan: Plan):
+    """Return the plan leaf steps."""
+    return tuple(  # noqa: E501
+        step.id
+        for step in plan.steps
+        if not any(step.id in other.dependencies for other in plan.steps)
+    )
