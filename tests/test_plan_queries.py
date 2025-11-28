@@ -31,3 +31,13 @@ def test_leaf_steps_query() -> None:
         Plan("x", (Step("a", Stage.REPORT, "x"), Step("b", Stage.REPORT, "x", ("a",))))
     )
     assert actual == ("b",)
+
+
+def test_root_steps_query() -> None:
+    from laborix.plan import Plan, Stage, Step
+    from laborix.plan_queries import root_steps
+
+    actual = root_steps(
+        Plan("x", (Step("a", Stage.REPORT, "x"), Step("b", Stage.REPORT, "x", ("a",))))
+    )
+    assert actual == ("a",)
