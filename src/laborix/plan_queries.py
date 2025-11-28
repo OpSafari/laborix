@@ -32,3 +32,8 @@ def leaf_steps(plan: Plan):
 def root_steps(plan: Plan):
     """Return the plan root steps."""
     return tuple(step.id for step in plan.steps if not step.dependencies)  # noqa: E501
+
+
+def stages_used(plan: Plan):
+    """Return the plan stages used."""
+    return tuple(sorted({step.stage.value for step in plan.steps}))  # noqa: E501

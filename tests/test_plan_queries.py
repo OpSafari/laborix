@@ -41,3 +41,11 @@ def test_root_steps_query() -> None:
         Plan("x", (Step("a", Stage.REPORT, "x"), Step("b", Stage.REPORT, "x", ("a",))))
     )
     assert actual == ("a",)
+
+
+def test_stages_used_query() -> None:
+    from laborix.plan import Plan, Stage, Step
+    from laborix.plan_queries import stages_used
+
+    actual = stages_used(Plan("x", (Step("a", Stage.REPORT, "x"), Step("b", Stage.ANALYSIS, "x"))))
+    assert actual == ("analysis", "report")
