@@ -58,3 +58,8 @@ def flatten_once(values: Sequence[Sequence[object]]):
 def index_map(values: Sequence[object]):
     """Return a deterministic index map value."""
     return {value: index for index, value in enumerate(values)}  # noqa: E501
+
+
+def only(values: Sequence[object]):
+    """Return a deterministic only value."""
+    return values[0] if len(values) == 1 else None  # noqa: E501
