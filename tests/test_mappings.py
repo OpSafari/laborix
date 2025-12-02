@@ -191,3 +191,12 @@ def test_removed_keys_contract() -> None:
     actual = removed_keys({"a": 1, "b": 2}, {"a": 1})
     assert actual == ("b",)
     assert actual == removed_keys({"a": 1, "b": 2}, {"a": 1})
+
+
+def test_removed_keys_result_has_stable_representation() -> None:
+    from laborix.mappings import removed_keys
+
+    result_one = removed_keys({"a": 1, "b": 2}, {"a": 1})
+    result_two = removed_keys({"a": 1, "b": 2}, {"a": 1})
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
