@@ -73,3 +73,12 @@ def test_max_retry_attempts_query() -> None:
 
     actual = max_retry_attempts(Plan("x", (Step("a", Stage.REPORT, "x"),)))
     assert actual == 1
+
+
+def test_max_retry_attempts_query_is_stable() -> None:
+    from laborix.plan import Plan, Stage, Step
+    from laborix.plan_queries import max_retry_attempts
+
+    first = max_retry_attempts(Plan("x", (Step("a", Stage.REPORT, "x"),)))
+    second = max_retry_attempts(Plan("x", (Step("a", Stage.REPORT, "x"),)))
+    assert first == second
