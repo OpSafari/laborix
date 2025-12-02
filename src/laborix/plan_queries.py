@@ -37,3 +37,8 @@ def root_steps(plan: Plan):
 def stages_used(plan: Plan):
     """Return the plan stages used."""
     return tuple(sorted({step.stage.value for step in plan.steps}))  # noqa: E501
+
+
+def output_count(plan: Plan):
+    """Return the plan output count."""
+    return sum(len(step.outputs) for step in plan.steps)  # noqa: E501
