@@ -59,3 +59,8 @@ def changed_keys(left: dict[str, Any], right: dict[str, Any]):
 def added_keys(left: dict[str, Any], right: dict[str, Any]):
     """Return a deterministic added keys value."""
     return tuple(sorted(right.keys() - left.keys()))  # noqa: E501
+
+
+def removed_keys(left: dict[str, Any], right: dict[str, Any]):
+    """Return a deterministic removed keys value."""
+    return tuple(sorted(left.keys() - right.keys()))  # noqa: E501
