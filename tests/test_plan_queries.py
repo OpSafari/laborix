@@ -49,3 +49,11 @@ def test_stages_used_query() -> None:
 
     actual = stages_used(Plan("x", (Step("a", Stage.REPORT, "x"), Step("b", Stage.ANALYSIS, "x"))))
     assert actual == ("analysis", "report")
+
+
+def test_stages_used_query_is_stable() -> None:
+    from laborix.plan import Plan, Stage, Step
+    from laborix.plan_queries import stages_used
+
+    plan = Plan("x", (Step("a", Stage.REPORT, "x"), Step("b", Stage.ANALYSIS, "x")))
+    assert stages_used(plan) == stages_used(plan)
