@@ -182,3 +182,12 @@ def test_only_contract() -> None:
     actual = only(["x"])
     assert actual == "x"
     assert actual == only(["x"])
+
+
+def test_only_result_has_stable_representation() -> None:
+    from laborix.sequences import only
+
+    result_one = only(["x"])
+    result_two = only(["x"])
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
