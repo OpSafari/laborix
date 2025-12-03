@@ -82,3 +82,11 @@ def test_max_retry_attempts_query_is_stable() -> None:
     first = max_retry_attempts(Plan("x", (Step("a", Stage.REPORT, "x"),)))
     second = max_retry_attempts(Plan("x", (Step("a", Stage.REPORT, "x"),)))
     assert first == second
+
+
+def test_total_cpu_query() -> None:
+    from laborix.plan import Plan, Stage, Step
+    from laborix.plan_queries import total_cpu
+
+    actual = total_cpu(Plan("x", (Step("a", Stage.REPORT, "x"), Step("b", Stage.REPORT, "x"))))
+    assert actual == 2
