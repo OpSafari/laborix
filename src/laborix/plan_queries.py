@@ -62,3 +62,8 @@ def total_memory_mb(plan: Plan):
 def stage_steps(plan: Plan, stage: Stage):
     """Return the plan stage steps."""
     return tuple(step.id for step in plan.steps if step.stage is stage)  # noqa: E501
+
+
+def operation_steps(plan: Plan, operation: str):
+    """Return the plan operation steps."""
+    return tuple(step.id for step in plan.steps if step.operation == operation)  # noqa: E501
