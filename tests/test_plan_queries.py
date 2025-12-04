@@ -140,3 +140,13 @@ def test_step_map_query() -> None:
 
     actual = step_map(Plan("x", (Step("a", Stage.REPORT, "x"),)))
     assert actual == {"a": Step("a", Stage.REPORT, "x")}
+
+
+def test_dependency_pairs_query() -> None:
+    from laborix.plan import Plan, Stage, Step
+    from laborix.plan_queries import dependency_pairs
+
+    actual = dependency_pairs(
+        Plan("x", (Step("a", Stage.REPORT, "x"), Step("b", Stage.REPORT, "x", ("a",))))
+    )
+    assert actual == (("a", "b"),)

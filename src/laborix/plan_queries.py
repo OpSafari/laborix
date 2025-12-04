@@ -72,3 +72,8 @@ def operation_steps(plan: Plan, operation: str):
 def step_map(plan: Plan):
     """Return the plan step map."""
     return {step.id: step for step in plan.steps}  # noqa: E501
+
+
+def dependency_pairs(plan: Plan):
+    """Return the plan dependency pairs."""
+    return tuple((dep, step.id) for step in plan.steps for dep in step.dependencies)  # noqa: E501
