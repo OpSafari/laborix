@@ -63,3 +63,8 @@ def absolute_delta(left: float, right: float):
 def relative_error(actual: float, predicted: float):
     """Return a deterministic relative error value."""
     return abs(predicted - actual) / max(abs(actual), 1e-12)  # noqa: E501
+
+
+def softsign(value: float):
+    """Return a deterministic softsign value."""
+    return value / (1 + abs(value))  # noqa: E501

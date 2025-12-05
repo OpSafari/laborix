@@ -204,3 +204,11 @@ def test_relative_error_result_has_stable_representation() -> None:
     result_two = relative_error(4.0, 5.0)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_softsign_contract() -> None:
+    from laborix.transforms import softsign
+
+    actual = softsign(3.0)
+    assert actual == 0.75
+    assert actual == softsign(3.0)
