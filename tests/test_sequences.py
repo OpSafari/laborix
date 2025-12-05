@@ -191,3 +191,11 @@ def test_only_result_has_stable_representation() -> None:
     result_two = only(["x"])
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_windows_contract() -> None:
+    from laborix.sequences import windows
+
+    actual = windows([1, 2, 3], 2)
+    assert actual == ((1, 2), (2, 3))
+    assert actual == windows([1, 2, 3], 2)

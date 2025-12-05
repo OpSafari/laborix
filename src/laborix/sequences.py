@@ -63,3 +63,8 @@ def index_map(values: Sequence[object]):
 def only(values: Sequence[object]):
     """Return a deterministic only value."""
     return values[0] if len(values) == 1 else None  # noqa: E501
+
+
+def windows(values: Sequence[object], size: int):
+    """Return a deterministic windows value."""
+    return tuple(tuple(values[i : i + size]) for i in range(len(values) - size + 1))  # noqa: E501
