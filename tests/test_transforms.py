@@ -221,3 +221,11 @@ def test_softsign_result_has_stable_representation() -> None:
     result_two = softsign(3.0)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_lerp_contract() -> None:
+    from laborix.transforms import lerp
+
+    actual = lerp(2.0, 6.0, 0.25)
+    assert actual == 3.0
+    assert actual == lerp(2.0, 6.0, 0.25)

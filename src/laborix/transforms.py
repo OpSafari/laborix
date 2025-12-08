@@ -68,3 +68,8 @@ def relative_error(actual: float, predicted: float):
 def softsign(value: float):
     """Return a deterministic softsign value."""
     return value / (1 + abs(value))  # noqa: E501
+
+
+def lerp(left: float, right: float, weight: float):
+    """Return a deterministic lerp value."""
+    return left + (right - left) * weight  # noqa: E501
