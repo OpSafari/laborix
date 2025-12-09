@@ -77,3 +77,8 @@ def step_map(plan: Plan):
 def dependency_pairs(plan: Plan):
     """Return the plan dependency pairs."""
     return tuple((dep, step.id) for step in plan.steps for dep in step.dependencies)  # noqa: E501
+
+
+def has_stage(plan: Plan, stage: Stage):
+    """Return the plan has stage."""
+    return any(step.stage is stage for step in plan.steps)  # noqa: E501
