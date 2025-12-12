@@ -217,3 +217,11 @@ def test_numeric_total_result_has_stable_representation() -> None:
     result_two = numeric_total({"a": 1, "b": 2.5, "c": "x"})
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_string_values_contract() -> None:
+    from laborix.mappings import string_values
+
+    actual = string_values({"a": 1, "b": True})
+    assert actual == {"a": "1", "b": "True"}
+    assert actual == string_values({"a": 1, "b": True})

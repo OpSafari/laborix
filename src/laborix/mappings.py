@@ -71,3 +71,8 @@ def numeric_total(value: dict[str, Any]):
     return sum(
         float(v) for v in value.values() if isinstance(v, (int, float)) and not isinstance(v, bool)
     )  # noqa: E501
+
+
+def string_values(value: dict[str, Any]):
+    """Return a deterministic string values value."""
+    return {k: str(v) for k, v in value.items()}  # noqa: E501
