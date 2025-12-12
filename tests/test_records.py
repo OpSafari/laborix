@@ -9,3 +9,9 @@ def test_statuses_accepts_iterators() -> None:
 
     values = [{"status": "ok"}, {"status": "failed"}]
     assert statuses(iter(values)) == statuses(values)
+
+
+def test_successful_records() -> None:
+    from laborix.records import successful
+
+    assert successful([{"status": "success"}, {"status": "failed"}]) == ({"status": "success"},)

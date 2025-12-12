@@ -10,3 +10,9 @@ def statuses(records: Iterable[dict[str, Any]]):
     """Compute statuses from ledger-shaped records."""
     records = tuple(records)
     return tuple(str(r.get("status", "")) for r in records)
+
+
+def successful(records: Iterable[dict[str, Any]]):
+    """Compute successful from ledger-shaped records."""
+    records = tuple(records)
+    return tuple(r for r in records if r.get("status") == "success")
