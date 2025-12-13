@@ -34,3 +34,9 @@ def test_step_names_records() -> None:
     from laborix.records import step_names
 
     assert step_names([{"step_id": "a"}, {"step_id": "a"}, {"step_id": "b"}]) == ("a", "b")
+
+
+def test_attempt_total_records() -> None:
+    from laborix.records import attempt_total
+
+    assert attempt_total([{"attempt": 1}, {"attempt": 2}]) == 3
