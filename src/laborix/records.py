@@ -16,3 +16,9 @@ def successful(records: Iterable[dict[str, Any]]):
     """Compute successful from ledger-shaped records."""
     records = tuple(records)
     return tuple(r for r in records if r.get("status") == "success")
+
+
+def failed(records: Iterable[dict[str, Any]]):
+    """Compute failed from ledger-shaped records."""
+    records = tuple(records)
+    return tuple(r for r in records if r.get("status") == "failed")

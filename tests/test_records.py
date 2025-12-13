@@ -15,3 +15,9 @@ def test_successful_records() -> None:
     from laborix.records import successful
 
     assert successful([{"status": "success"}, {"status": "failed"}]) == ({"status": "success"},)
+
+
+def test_failed_records() -> None:
+    from laborix.records import failed
+
+    assert failed([{"status": "success"}, {"status": "failed"}]) == ({"status": "failed"},)
