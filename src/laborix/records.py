@@ -46,3 +46,9 @@ def last_record(records: Iterable[dict[str, Any]]):
     """Compute last record from ledger-shaped records."""
     records = tuple(records)
     return tuple(records)[-1] if tuple(records) else None
+
+
+def record_count(records: Iterable[dict[str, Any]]):
+    """Compute record count from ledger-shaped records."""
+    records = tuple(records)
+    return sum(1 for _ in records)
