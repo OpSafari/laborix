@@ -40,3 +40,9 @@ def wall_total(records: Iterable[dict[str, Any]]):
     """Compute wall total from ledger-shaped records."""
     records = tuple(records)
     return sum(float(r.get("wall_seconds", 0)) for r in records)
+
+
+def last_record(records: Iterable[dict[str, Any]]):
+    """Compute last record from ledger-shaped records."""
+    records = tuple(records)
+    return tuple(records)[-1] if tuple(records) else None
