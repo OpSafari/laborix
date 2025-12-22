@@ -73,3 +73,8 @@ def windows(values: Sequence[object], size: int):
 def reversed_tuple(values: Sequence[object]):
     """Return a deterministic reversed tuple value."""
     return tuple(reversed(values))  # noqa: E501
+
+
+def enumerated(values: Sequence[object]):
+    """Return a deterministic enumerated value."""
+    return tuple(enumerate(values))  # noqa: E501
