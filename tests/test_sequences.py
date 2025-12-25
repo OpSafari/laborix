@@ -250,3 +250,12 @@ def test_repeat_contract() -> None:
     actual = repeat([1, 2], 2)
     assert actual == (1, 2, 1, 2)
     assert actual == repeat([1, 2], 2)
+
+
+def test_repeat_result_has_stable_representation() -> None:
+    from laborix.sequences import repeat
+
+    result_one = repeat([1, 2], 2)
+    result_two = repeat([1, 2], 2)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
