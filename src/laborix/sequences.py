@@ -78,3 +78,8 @@ def reversed_tuple(values: Sequence[object]):
 def enumerated(values: Sequence[object]):
     """Return a deterministic enumerated value."""
     return tuple(enumerate(values))  # noqa: E501
+
+
+def repeat(values: Sequence[object], count: int):
+    """Return a deterministic repeat value."""
+    return tuple(values) * max(0, count)  # noqa: E501
