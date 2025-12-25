@@ -263,3 +263,12 @@ def test_midpoint_contract() -> None:
     actual = midpoint(2.0, 8.0)
     assert actual == 5.0
     assert actual == midpoint(2.0, 8.0)
+
+
+def test_midpoint_result_has_stable_representation() -> None:
+    from laborix.transforms import midpoint
+
+    result_one = midpoint(2.0, 8.0)
+    result_two = midpoint(2.0, 8.0)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
