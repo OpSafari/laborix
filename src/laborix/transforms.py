@@ -78,3 +78,8 @@ def lerp(left: float, right: float, weight: float):
 def sign(value: float):
     """Return a deterministic sign value."""
     return 0 if value == 0 else (1 if value > 0 else -1)  # noqa: E501
+
+
+def midpoint(left: float, right: float):
+    """Return a deterministic midpoint value."""
+    return (left + right) / 2  # noqa: E501

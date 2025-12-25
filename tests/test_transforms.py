@@ -255,3 +255,11 @@ def test_sign_result_has_stable_representation() -> None:
     result_two = sign(-2.0)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_midpoint_contract() -> None:
+    from laborix.transforms import midpoint
+
+    actual = midpoint(2.0, 8.0)
+    assert actual == 5.0
+    assert actual == midpoint(2.0, 8.0)
