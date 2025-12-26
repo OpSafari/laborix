@@ -72,3 +72,9 @@ def test_record_count_records() -> None:
     from laborix.records import record_count
 
     assert record_count([{}, {}]) == 2
+
+
+def test_status_counts_records() -> None:
+    from laborix.records import status_counts
+
+    assert status_counts([{"status": "x"}, {"status": "x"}, {"status": "y"}]) == {"x": 2, "y": 1}
