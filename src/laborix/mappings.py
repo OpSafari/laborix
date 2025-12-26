@@ -81,3 +81,8 @@ def string_values(value: dict[str, Any]):
 def nonempty_strings(value: dict[str, Any]):
     """Return a deterministic nonempty strings value."""
     return {k: v for k, v in value.items() if isinstance(v, str) and bool(v.strip())}  # noqa: E501
+
+
+def bool_flags(value: dict[str, Any]):
+    """Return a deterministic bool flags value."""
+    return {k: v for k, v in value.items() if isinstance(v, bool)}  # noqa: E501
