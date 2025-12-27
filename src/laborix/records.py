@@ -73,3 +73,9 @@ def code_versions(records: Iterable[dict[str, Any]]):
     """Compute code versions from ledger-shaped records."""
     records = tuple(records)
     return tuple(sorted({str(r.get("code_version")) for r in records}))  # noqa: E501
+
+
+def output_hashes(records: Iterable[dict[str, Any]]):
+    """Compute output hashes from ledger-shaped records."""
+    records = tuple(records)
+    return tuple(str(r["outputs_hash"]) for r in records if r.get("outputs_hash"))  # noqa: E501

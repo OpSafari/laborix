@@ -97,3 +97,9 @@ def test_code_versions_accepts_iterators() -> None:
 
     values = [{"code_version": "b"}, {"code_version": "a"}]
     assert code_versions(iter(values)) == code_versions(values)
+
+
+def test_output_hashes_records() -> None:
+    from laborix.records import output_hashes
+
+    assert output_hashes([{"outputs_hash": "a"}, {"outputs_hash": None}]) == ("a",)
