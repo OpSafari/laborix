@@ -85,3 +85,12 @@ def latest_by_step(records: Iterable[dict[str, Any]]):
     """Compute latest by step from ledger-shaped records."""
     records = tuple(records)
     return {str(r["step_id"]): r for r in records}  # noqa: E501
+
+
+def attempts_by_step(records: Iterable[dict[str, Any]]):
+    """Compute attempts by step from ledger-shaped records."""
+    records = tuple(records)
+    return {
+        s: sum(r.get("step_id") == s for r in records)
+        for s in sorted({str(r.get("step_id")) for r in records})
+    }  # noqa: E501
