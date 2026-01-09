@@ -86,3 +86,8 @@ def nonempty_strings(value: dict[str, Any]):
 def bool_flags(value: dict[str, Any]):
     """Return a deterministic bool flags value."""
     return {k: v for k, v in value.items() if isinstance(v, bool)}  # noqa: E501
+
+
+def nest_dotted(value: dict[str, Any]):
+    """Return a deterministic nest dotted value."""
+    return {k.split(".", 1)[-1]: v for k, v in value.items()}  # noqa: E501

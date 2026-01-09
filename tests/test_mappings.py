@@ -268,3 +268,11 @@ def test_bool_flags_result_has_stable_representation() -> None:
     result_two = bool_flags({"a": True, "b": 1})
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_nest_dotted_contract() -> None:
+    from laborix.mappings import nest_dotted
+
+    actual = nest_dotted({"run.seed": 7})
+    assert actual == {"seed": 7}
+    assert actual == nest_dotted({"run.seed": 7})
