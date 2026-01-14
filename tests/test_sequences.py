@@ -284,3 +284,12 @@ def test_tail_contract() -> None:
     actual = tail([1, 2, 3])
     assert actual == (2, 3)
     assert actual == tail([1, 2, 3])
+
+
+def test_tail_result_has_stable_representation() -> None:
+    from laborix.sequences import tail
+
+    result_one = tail([1, 2, 3])
+    result_two = tail([1, 2, 3])
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
