@@ -314,3 +314,12 @@ def test_average_pair_contract() -> None:
     actual = average_pair(1.0, 3.0)
     assert actual == 2.0
     assert actual == average_pair(1.0, 3.0)
+
+
+def test_average_pair_result_has_stable_representation() -> None:
+    from laborix.transforms import average_pair
+
+    result_one = average_pair(1.0, 3.0)
+    result_two = average_pair(1.0, 3.0)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
