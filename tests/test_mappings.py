@@ -285,3 +285,11 @@ def test_nest_dotted_result_has_stable_representation() -> None:
     result_two = nest_dotted({"run.seed": 7})
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_value_types_contract() -> None:
+    from laborix.mappings import value_types
+
+    actual = value_types({"a": 1, "b": "x"})
+    assert actual == {"a": "int", "b": "str"}
+    assert actual == value_types({"a": 1, "b": "x"})

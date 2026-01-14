@@ -91,3 +91,8 @@ def bool_flags(value: dict[str, Any]):
 def nest_dotted(value: dict[str, Any]):
     """Return a deterministic nest dotted value."""
     return {k.split(".", 1)[-1]: v for k, v in value.items()}  # noqa: E501
+
+
+def value_types(value: dict[str, Any]):
+    """Return a deterministic value types value."""
+    return {k: type(v).__name__ for k, v in value.items()}  # noqa: E501
