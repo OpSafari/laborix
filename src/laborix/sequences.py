@@ -88,3 +88,8 @@ def repeat(values: Sequence[object], count: int):
 def every_other(values: Sequence[object]):
     """Return a deterministic every other value."""
     return tuple(values[::2])  # noqa: E501
+
+
+def tail(values: Sequence[object]):
+    """Return a deterministic tail value."""
+    return tuple(values[1:])  # noqa: E501
