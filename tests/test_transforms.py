@@ -297,3 +297,12 @@ def test_negative_contract() -> None:
     actual = negative(3.0)
     assert actual == -3.0
     assert actual == negative(3.0)
+
+
+def test_negative_result_has_stable_representation() -> None:
+    from laborix.transforms import negative
+
+    result_one = negative(3.0)
+    result_two = negative(3.0)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
