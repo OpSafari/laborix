@@ -302,3 +302,11 @@ def test_value_types_result_has_stable_representation() -> None:
     result_two = value_types({"a": 1, "b": "x"})
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_ordered_values_contract() -> None:
+    from laborix.mappings import ordered_values
+
+    actual = ordered_values({"b": 2, "a": 1})
+    assert actual == (1, 2)
+    assert actual == ordered_values({"b": 2, "a": 1})
