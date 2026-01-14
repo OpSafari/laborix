@@ -93,3 +93,8 @@ def every_other(values: Sequence[object]):
 def tail(values: Sequence[object]):
     """Return a deterministic tail value."""
     return tuple(values[1:])  # noqa: E501
+
+
+def head(values: Sequence[object]):
+    """Return a deterministic head value."""
+    return tuple(values[:-1])  # noqa: E501
