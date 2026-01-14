@@ -306,3 +306,11 @@ def test_negative_result_has_stable_representation() -> None:
     result_two = negative(3.0)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_average_pair_contract() -> None:
+    from laborix.transforms import average_pair
+
+    actual = average_pair(1.0, 3.0)
+    assert actual == 2.0
+    assert actual == average_pair(1.0, 3.0)
