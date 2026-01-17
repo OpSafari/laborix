@@ -21,3 +21,12 @@ def test_percent_contract() -> None:
     actual = percent(0.125)
     assert actual == 12.5
     assert actual == percent(0.125)
+
+
+def test_percent_result_has_stable_representation() -> None:
+    from laborix.transforms import percent
+
+    result_one = percent(0.125)
+    result_two = percent(0.125)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
