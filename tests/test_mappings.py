@@ -13,3 +13,11 @@ def test_sorted_keys_result_has_stable_representation() -> None:
     result_two = sorted_keys({"b": 2, "a": 1})
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_sorted_items_contract() -> None:
+    from laborix.mappings import sorted_items
+
+    actual = sorted_items({"b": 2, "a": 1})
+    assert actual == (("a", 1), ("b", 2))
+    assert actual == sorted_items({"b": 2, "a": 1})
