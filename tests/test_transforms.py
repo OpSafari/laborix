@@ -13,3 +13,11 @@ def test_clamp01_result_has_stable_representation() -> None:
     second = clamp01(-2.0)
     assert type(first) is type(second)
     assert repr(first) == repr(second)
+
+
+def test_percent_contract() -> None:
+    from laborix.transforms import percent
+
+    actual = percent(0.125)
+    assert actual == 12.5
+    assert actual == percent(0.125)
