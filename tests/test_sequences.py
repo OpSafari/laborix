@@ -30,3 +30,11 @@ def test_last_result_has_stable_representation() -> None:
     result_two = last(["a", "b"])
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_pairwise_contract() -> None:
+    from laborix.sequences import pairwise
+
+    actual = pairwise([1, 2, 3])
+    assert actual == ((1, 2), (2, 3))
+    assert actual == pairwise([1, 2, 3])
