@@ -30,3 +30,11 @@ def test_percent_result_has_stable_representation() -> None:
     result_two = percent(0.125)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_square_contract() -> None:
+    from laborix.transforms import square
+
+    actual = square(-3.0)
+    assert actual == 9.0
+    assert actual == square(-3.0)
