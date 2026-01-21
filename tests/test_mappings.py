@@ -310,3 +310,11 @@ def test_ordered_values_contract() -> None:
     actual = ordered_values({"b": 2, "a": 1})
     assert actual == (1, 2)
     assert actual == ordered_values({"b": 2, "a": 1})
+
+
+def test_keys_with_prefix_contract() -> None:
+    from laborix.mappings import keys_with_prefix
+
+    actual = keys_with_prefix({"run.a": 1, "x": 2}, "run.")
+    assert actual == ("run.a",)
+    assert actual == keys_with_prefix({"run.a": 1, "x": 2}, "run.")
