@@ -106,3 +106,8 @@ def ordered_values(value: dict[str, Any]):
 def keys_with_prefix(value: dict[str, Any], prefix: str):
     """Return a deterministic keys with prefix value."""
     return tuple(sorted(k for k in value if k.startswith(prefix)))  # noqa: E501
+
+
+def mapping_size(value: dict[str, Any]):
+    """Return a deterministic mapping size value."""
+    return len(value)  # noqa: E501

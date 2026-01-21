@@ -318,3 +318,11 @@ def test_keys_with_prefix_contract() -> None:
     actual = keys_with_prefix({"run.a": 1, "x": 2}, "run.")
     assert actual == ("run.a",)
     assert actual == keys_with_prefix({"run.a": 1, "x": 2}, "run.")
+
+
+def test_mapping_size_contract() -> None:
+    from laborix.mappings import mapping_size
+
+    actual = mapping_size({"a": 1, "b": 2})
+    assert actual == 2
+    assert actual == mapping_size({"a": 1, "b": 2})
