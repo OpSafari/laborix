@@ -103,3 +103,8 @@ def average_pair(left: float, right: float):
 def degrees_to_radians(value: float):
     """Return a deterministic degrees to radians value."""
     return value * math.pi / 180.0  # noqa: E501
+
+
+def radians_to_degrees(value: float):
+    """Return a deterministic radians to degrees value."""
+    return value * 180.0 / math.pi  # noqa: E501
