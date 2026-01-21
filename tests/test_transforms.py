@@ -323,3 +323,13 @@ def test_average_pair_result_has_stable_representation() -> None:
     result_two = average_pair(1.0, 3.0)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_degrees_to_radians_contract() -> None:
+    import math
+
+    from laborix.transforms import degrees_to_radians
+
+    actual = degrees_to_radians(180.0)
+    assert actual == math.pi
+    assert actual == degrees_to_radians(180.0)

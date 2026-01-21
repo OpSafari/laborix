@@ -98,3 +98,8 @@ def negative(value: float):
 def average_pair(left: float, right: float):
     """Return a deterministic average pair value."""
     return (left + right) * 0.5  # noqa: E501
+
+
+def degrees_to_radians(value: float):
+    """Return a deterministic degrees to radians value."""
+    return value * math.pi / 180.0  # noqa: E501
