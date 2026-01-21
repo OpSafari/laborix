@@ -309,3 +309,11 @@ def test_count_equal_contract() -> None:
     actual = count_equal([1, 2, 1], 1)
     assert actual == 2
     assert actual == count_equal([1, 2, 1], 1)
+
+
+def test_all_equal_contract() -> None:
+    from laborix.sequences import all_equal
+
+    actual = all_equal([2, 2, 2])
+    assert actual == True
+    assert actual == all_equal([2, 2, 2])
