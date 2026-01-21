@@ -301,3 +301,11 @@ def test_head_contract() -> None:
     actual = head([1, 2, 3])
     assert actual == (1, 2)
     assert actual == head([1, 2, 3])
+
+
+def test_count_equal_contract() -> None:
+    from laborix.sequences import count_equal
+
+    actual = count_equal([1, 2, 1], 1)
+    assert actual == 2
+    assert actual == count_equal([1, 2, 1], 1)
