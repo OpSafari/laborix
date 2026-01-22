@@ -14,3 +14,8 @@ def sorted_keys(value: dict[str, Any]):
 def sorted_items(value: dict[str, Any]):
     """Return a deterministic sorted items value."""
     return tuple(sorted(value.items()))  # noqa: E501
+
+
+def without_none(value: dict[str, Any]):
+    """Return a deterministic without none value."""
+    return {k: v for k, v in value.items() if v is not None}  # noqa: E501
