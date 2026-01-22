@@ -18,3 +18,8 @@ def last(values: Sequence[object]):
 def pairwise(values: Sequence[object]):
     """Return a deterministic pairwise value."""
     return tuple(zip(values, values[1:], strict=False))  # noqa: E501
+
+
+def deduplicate(values: Sequence[object]):
+    """Return a deterministic deduplicate value."""
+    return tuple(dict.fromkeys(values))  # noqa: E501
