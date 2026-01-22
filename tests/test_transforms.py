@@ -47,3 +47,11 @@ def test_square_result_has_stable_representation() -> None:
     result_two = square(-3.0)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_signed_sqrt_contract() -> None:
+    from laborix.transforms import signed_sqrt
+
+    actual = signed_sqrt(-9.0)
+    assert actual == -3.0
+    assert actual == signed_sqrt(-9.0)

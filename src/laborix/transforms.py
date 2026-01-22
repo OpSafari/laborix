@@ -18,3 +18,8 @@ def percent(value: float):
 def square(value: float):
     """Return a deterministic square value."""
     return value * value  # noqa: E501
+
+
+def signed_sqrt(value: float):
+    """Return a deterministic signed sqrt value."""
+    return math.copysign(math.sqrt(abs(value)), value)  # noqa: E501
