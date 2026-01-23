@@ -55,3 +55,12 @@ def test_select_keys_contract() -> None:
     actual = select_keys({"a": 1, "b": 2}, ["b"])
     assert actual == {"b": 2}
     assert actual == select_keys({"a": 1, "b": 2}, ["b"])
+
+
+def test_select_keys_result_has_stable_representation() -> None:
+    from laborix.mappings import select_keys
+
+    result_one = select_keys({"a": 1, "b": 2}, ["b"])
+    result_two = select_keys({"a": 1, "b": 2}, ["b"])
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
