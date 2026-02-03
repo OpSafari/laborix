@@ -63,3 +63,12 @@ def test_chunks_contract() -> None:
     actual = chunks([1, 2, 3, 4, 5], 2)
     assert actual == ((1, 2), (3, 4), (5,))
     assert actual == chunks([1, 2, 3, 4, 5], 2)
+
+
+def test_chunks_result_has_stable_representation() -> None:
+    from laborix.sequences import chunks
+
+    result_one = chunks([1, 2, 3, 4, 5], 2)
+    result_two = chunks([1, 2, 3, 4, 5], 2)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
