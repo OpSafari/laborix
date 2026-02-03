@@ -24,3 +24,8 @@ def without_none(value: dict[str, Any]):
 def select_keys(value: dict[str, Any], keys: Sequence[str]):
     """Return a deterministic select keys value."""
     return {k: value[k] for k in keys if k in value}  # noqa: E501
+
+
+def rename_key(value: dict[str, Any], old: str, new: str):
+    """Return a deterministic rename key value."""
+    return {(new if k == old else k): v for k, v in value.items()}  # noqa: E501
