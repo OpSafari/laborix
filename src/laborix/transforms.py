@@ -23,3 +23,8 @@ def square(value: float):
 def signed_sqrt(value: float):
     """Return a deterministic signed sqrt value."""
     return math.copysign(math.sqrt(abs(value)), value)  # noqa: E501
+
+
+def safe_ratio(numerator: float, denominator: float):
+    """Return a deterministic safe ratio value."""
+    return 0.0 if denominator == 0 else numerator / denominator  # noqa: E501
