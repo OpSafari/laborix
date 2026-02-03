@@ -23,3 +23,8 @@ def pairwise(values: Sequence[object]):
 def deduplicate(values: Sequence[object]):
     """Return a deterministic deduplicate value."""
     return tuple(dict.fromkeys(values))  # noqa: E501
+
+
+def chunks(values: Sequence[object], size: int):
+    """Return a deterministic chunks value."""
+    return tuple(tuple(values[i : i + size]) for i in range(0, len(values), size))  # noqa: E501
