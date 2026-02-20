@@ -80,3 +80,12 @@ def test_rotate_left_contract() -> None:
     actual = rotate_left([1, 2, 3], 1)
     assert actual == (2, 3, 1)
     assert actual == rotate_left([1, 2, 3], 1)
+
+
+def test_rotate_left_result_has_stable_representation() -> None:
+    from laborix.sequences import rotate_left
+
+    result_one = rotate_left([1, 2, 3], 1)
+    result_two = rotate_left([1, 2, 3], 1)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
