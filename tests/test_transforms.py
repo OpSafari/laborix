@@ -91,3 +91,14 @@ def test_log1p_positive_contract() -> None:
     actual = log1p_positive(math.e - 1)
     assert actual == 1.0
     assert actual == log1p_positive(math.e - 1)
+
+
+def test_log1p_positive_result_has_stable_representation() -> None:
+    import math
+
+    from laborix.transforms import log1p_positive
+
+    result_one = log1p_positive(math.e - 1)
+    result_two = log1p_positive(math.e - 1)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
