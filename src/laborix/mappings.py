@@ -29,3 +29,8 @@ def select_keys(value: dict[str, Any], keys: Sequence[str]):
 def rename_key(value: dict[str, Any], old: str, new: str):
     """Return a deterministic rename key value."""
     return {(new if k == old else k): v for k, v in value.items()}  # noqa: E501
+
+
+def invert_unique(value: dict[str, Any]):
+    """Return a deterministic invert unique value."""
+    return {v: k for k, v in value.items()}  # noqa: E501
