@@ -110,3 +110,12 @@ def test_center_contract() -> None:
     actual = center(8.0, 3.0)
     assert actual == 5.0
     assert actual == center(8.0, 3.0)
+
+
+def test_center_result_has_stable_representation() -> None:
+    from laborix.transforms import center
+
+    result_one = center(8.0, 3.0)
+    result_two = center(8.0, 3.0)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
