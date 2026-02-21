@@ -89,3 +89,12 @@ def test_invert_unique_contract() -> None:
     actual = invert_unique({"a": 1, "b": 2})
     assert actual == {1: "a", 2: "b"}
     assert actual == invert_unique({"a": 1, "b": 2})
+
+
+def test_invert_unique_result_has_stable_representation() -> None:
+    from laborix.mappings import invert_unique
+
+    result_one = invert_unique({"a": 1, "b": 2})
+    result_two = invert_unique({"a": 1, "b": 2})
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
