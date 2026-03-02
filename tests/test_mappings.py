@@ -106,3 +106,12 @@ def test_prefix_keys_contract() -> None:
     actual = prefix_keys({"a": 1}, "run.")
     assert actual == {"run.a": 1}
     assert actual == prefix_keys({"a": 1}, "run.")
+
+
+def test_prefix_keys_result_has_stable_representation() -> None:
+    from laborix.mappings import prefix_keys
+
+    result_one = prefix_keys({"a": 1}, "run.")
+    result_two = prefix_keys({"a": 1}, "run.")
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
