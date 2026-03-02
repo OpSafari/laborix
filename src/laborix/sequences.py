@@ -33,3 +33,8 @@ def chunks(values: Sequence[object], size: int):
 def rotate_left(values: Sequence[object], count: int):
     """Return a deterministic rotate left value."""
     return tuple(values[count % len(values) :]) + tuple(values[: count % len(values)])  # noqa: E501
+
+
+def interleave(left: Sequence[object], right: Sequence[object]):
+    """Return a deterministic interleave value."""
+    return tuple(x for pair in zip(left, right, strict=True) for x in pair)  # noqa: E501
