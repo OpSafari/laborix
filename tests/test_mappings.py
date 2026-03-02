@@ -98,3 +98,11 @@ def test_invert_unique_result_has_stable_representation() -> None:
     result_two = invert_unique({"a": 1, "b": 2})
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_prefix_keys_contract() -> None:
+    from laborix.mappings import prefix_keys
+
+    actual = prefix_keys({"a": 1}, "run.")
+    assert actual == {"run.a": 1}
+    assert actual == prefix_keys({"a": 1}, "run.")
