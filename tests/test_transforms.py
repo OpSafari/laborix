@@ -119,3 +119,11 @@ def test_center_result_has_stable_representation() -> None:
     result_two = center(8.0, 3.0)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_unit_interval_contract() -> None:
+    from laborix.transforms import unit_interval
+
+    actual = unit_interval(5.0, 0.0, 10.0)
+    assert actual == 0.5
+    assert actual == unit_interval(5.0, 0.0, 10.0)
