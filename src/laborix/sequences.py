@@ -38,3 +38,8 @@ def rotate_left(values: Sequence[object], count: int):
 def interleave(left: Sequence[object], right: Sequence[object]):
     """Return a deterministic interleave value."""
     return tuple(x for pair in zip(left, right, strict=True) for x in pair)  # noqa: E501
+
+
+def take(values: Sequence[object], count: int):
+    """Return a deterministic take value."""
+    return tuple(values[: max(0, count)])  # noqa: E501
