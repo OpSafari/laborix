@@ -136,3 +136,11 @@ def test_unit_interval_result_has_stable_representation() -> None:
     result_two = unit_interval(5.0, 0.0, 10.0)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_quantize_contract() -> None:
+    from laborix.transforms import quantize
+
+    actual = quantize(1.24, 0.5)
+    assert actual == 1.0
+    assert actual == quantize(1.24, 0.5)
