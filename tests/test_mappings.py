@@ -123,3 +123,12 @@ def test_merge_right_contract() -> None:
     actual = merge_right({"a": 1}, {"a": 2, "b": 3})
     assert actual == {"a": 2, "b": 3}
     assert actual == merge_right({"a": 1}, {"a": 2, "b": 3})
+
+
+def test_merge_right_result_has_stable_representation() -> None:
+    from laborix.mappings import merge_right
+
+    result_one = merge_right({"a": 1}, {"a": 2, "b": 3})
+    result_two = merge_right({"a": 1}, {"a": 2, "b": 3})
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
