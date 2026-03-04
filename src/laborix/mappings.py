@@ -39,3 +39,8 @@ def invert_unique(value: dict[str, Any]):
 def prefix_keys(value: dict[str, Any], prefix: str):
     """Return a deterministic prefix keys value."""
     return {prefix + k: v for k, v in value.items()}  # noqa: E501
+
+
+def merge_right(left: dict[str, Any], right: dict[str, Any]):
+    """Return a deterministic merge right value."""
+    return {**left, **right}  # noqa: E501
