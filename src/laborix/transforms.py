@@ -48,3 +48,8 @@ def unit_interval(value: float, low: float, high: float):
 def quantize(value: float, quantum: float):
     """Return a deterministic quantize value."""
     return round(value / quantum) * quantum  # noqa: E501
+
+
+def bounded_exp(value: float, ceiling: float):
+    """Return a deterministic bounded exp value."""
+    return math.exp(min(value, ceiling))  # noqa: E501
