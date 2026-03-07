@@ -123,3 +123,11 @@ def test_take_result_has_stable_representation() -> None:
     result_two = take([1, 2, 3], 2)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_drop_contract() -> None:
+    from laborix.sequences import drop
+
+    actual = drop([1, 2, 3], 1)
+    assert actual == (2, 3)
+    assert actual == drop([1, 2, 3], 1)
