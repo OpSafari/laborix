@@ -54,3 +54,8 @@ def common_keys(left: dict[str, Any], right: dict[str, Any]):
 def changed_keys(left: dict[str, Any], right: dict[str, Any]):
     """Return a deterministic changed keys value."""
     return tuple(sorted(k for k in left.keys() & right.keys() if left[k] != right[k]))  # noqa: E501
+
+
+def added_keys(left: dict[str, Any], right: dict[str, Any]):
+    """Return a deterministic added keys value."""
+    return tuple(sorted(right.keys() - left.keys()))  # noqa: E501
