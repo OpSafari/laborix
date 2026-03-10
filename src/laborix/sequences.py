@@ -53,3 +53,8 @@ def drop(values: Sequence[object], count: int):
 def flatten_once(values: Sequence[Sequence[object]]):
     """Return a deterministic flatten once value."""
     return tuple(x for group in values for x in group)  # noqa: E501
+
+
+def index_map(values: Sequence[object]):
+    """Return a deterministic index map value."""
+    return {value: index for index, value in enumerate(values)}  # noqa: E501
