@@ -195,3 +195,12 @@ def test_relative_error_contract() -> None:
     actual = relative_error(4.0, 5.0)
     assert actual == 0.25
     assert actual == relative_error(4.0, 5.0)
+
+
+def test_relative_error_result_has_stable_representation() -> None:
+    from laborix.transforms import relative_error
+
+    result_one = relative_error(4.0, 5.0)
+    result_two = relative_error(4.0, 5.0)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
