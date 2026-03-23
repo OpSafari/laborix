@@ -174,3 +174,11 @@ def test_index_map_result_has_stable_representation() -> None:
     result_two = index_map(["a", "b"])
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_only_contract() -> None:
+    from laborix.sequences import only
+
+    actual = only(["x"])
+    assert actual == "x"
+    assert actual == only(["x"])
