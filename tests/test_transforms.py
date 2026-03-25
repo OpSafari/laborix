@@ -212,3 +212,12 @@ def test_softsign_contract() -> None:
     actual = softsign(3.0)
     assert actual == 0.75
     assert actual == softsign(3.0)
+
+
+def test_softsign_result_has_stable_representation() -> None:
+    from laborix.transforms import softsign
+
+    result_one = softsign(3.0)
+    result_two = softsign(3.0)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
