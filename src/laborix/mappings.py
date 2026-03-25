@@ -64,3 +64,10 @@ def added_keys(left: dict[str, Any], right: dict[str, Any]):
 def removed_keys(left: dict[str, Any], right: dict[str, Any]):
     """Return a deterministic removed keys value."""
     return tuple(sorted(left.keys() - right.keys()))  # noqa: E501
+
+
+def numeric_total(value: dict[str, Any]):
+    """Return a deterministic numeric total value."""
+    return sum(
+        float(v) for v in value.values() if isinstance(v, (int, float)) and not isinstance(v, bool)
+    )  # noqa: E501

@@ -200,3 +200,11 @@ def test_removed_keys_result_has_stable_representation() -> None:
     result_two = removed_keys({"a": 1, "b": 2}, {"a": 1})
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_numeric_total_contract() -> None:
+    from laborix.mappings import numeric_total
+
+    actual = numeric_total({"a": 1, "b": 2.5, "c": "x"})
+    assert actual == 3.5
+    assert actual == numeric_total({"a": 1, "b": 2.5, "c": "x"})
