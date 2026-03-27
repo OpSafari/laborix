@@ -208,3 +208,12 @@ def test_numeric_total_contract() -> None:
     actual = numeric_total({"a": 1, "b": 2.5, "c": "x"})
     assert actual == 3.5
     assert actual == numeric_total({"a": 1, "b": 2.5, "c": "x"})
+
+
+def test_numeric_total_result_has_stable_representation() -> None:
+    from laborix.mappings import numeric_total
+
+    result_one = numeric_total({"a": 1, "b": 2.5, "c": "x"})
+    result_two = numeric_total({"a": 1, "b": 2.5, "c": "x"})
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
