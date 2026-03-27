@@ -229,3 +229,12 @@ def test_lerp_contract() -> None:
     actual = lerp(2.0, 6.0, 0.25)
     assert actual == 3.0
     assert actual == lerp(2.0, 6.0, 0.25)
+
+
+def test_lerp_result_has_stable_representation() -> None:
+    from laborix.transforms import lerp
+
+    result_one = lerp(2.0, 6.0, 0.25)
+    result_two = lerp(2.0, 6.0, 0.25)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
