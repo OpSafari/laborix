@@ -216,3 +216,12 @@ def test_reversed_tuple_contract() -> None:
     actual = reversed_tuple([1, 2, 3])
     assert actual == (3, 2, 1)
     assert actual == reversed_tuple([1, 2, 3])
+
+
+def test_reversed_tuple_result_has_stable_representation() -> None:
+    from laborix.sequences import reversed_tuple
+
+    result_one = reversed_tuple([1, 2, 3])
+    result_two = reversed_tuple([1, 2, 3])
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
