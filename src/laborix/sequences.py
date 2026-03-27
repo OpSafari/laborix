@@ -68,3 +68,8 @@ def only(values: Sequence[object]):
 def windows(values: Sequence[object], size: int):
     """Return a deterministic windows value."""
     return tuple(tuple(values[i : i + size]) for i in range(len(values) - size + 1))  # noqa: E501
+
+
+def reversed_tuple(values: Sequence[object]):
+    """Return a deterministic reversed tuple value."""
+    return tuple(reversed(values))  # noqa: E501
