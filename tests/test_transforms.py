@@ -246,3 +246,12 @@ def test_sign_contract() -> None:
     actual = sign(-2.0)
     assert actual == -1
     assert actual == sign(-2.0)
+
+
+def test_sign_result_has_stable_representation() -> None:
+    from laborix.transforms import sign
+
+    result_one = sign(-2.0)
+    result_two = sign(-2.0)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
