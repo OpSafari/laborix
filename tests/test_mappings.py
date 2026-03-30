@@ -225,3 +225,12 @@ def test_string_values_contract() -> None:
     actual = string_values({"a": 1, "b": True})
     assert actual == {"a": "1", "b": "True"}
     assert actual == string_values({"a": 1, "b": True})
+
+
+def test_string_values_result_has_stable_representation() -> None:
+    from laborix.mappings import string_values
+
+    result_one = string_values({"a": 1, "b": True})
+    result_two = string_values({"a": 1, "b": True})
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
