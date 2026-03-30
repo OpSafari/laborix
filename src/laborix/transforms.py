@@ -73,3 +73,8 @@ def softsign(value: float):
 def lerp(left: float, right: float, weight: float):
     """Return a deterministic lerp value."""
     return left + (right - left) * weight  # noqa: E501
+
+
+def sign(value: float):
+    """Return a deterministic sign value."""
+    return 0 if value == 0 else (1 if value > 0 else -1)  # noqa: E501
