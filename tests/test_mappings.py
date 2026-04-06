@@ -234,3 +234,11 @@ def test_string_values_result_has_stable_representation() -> None:
     result_two = string_values({"a": 1, "b": True})
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_nonempty_strings_contract() -> None:
+    from laborix.mappings import nonempty_strings
+
+    actual = nonempty_strings({"a": " x ", "b": "", "c": 2})
+    assert actual == {"a": " x "}
+    assert actual == nonempty_strings({"a": " x ", "b": "", "c": 2})
