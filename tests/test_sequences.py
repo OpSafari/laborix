@@ -233,3 +233,12 @@ def test_enumerated_contract() -> None:
     actual = enumerated(["a", "b"])
     assert actual == ((0, "a"), (1, "b"))
     assert actual == enumerated(["a", "b"])
+
+
+def test_enumerated_result_has_stable_representation() -> None:
+    from laborix.sequences import enumerated
+
+    result_one = enumerated(["a", "b"])
+    result_two = enumerated(["a", "b"])
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
