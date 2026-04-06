@@ -225,3 +225,11 @@ def test_reversed_tuple_result_has_stable_representation() -> None:
     result_two = reversed_tuple([1, 2, 3])
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_enumerated_contract() -> None:
+    from laborix.sequences import enumerated
+
+    actual = enumerated(["a", "b"])
+    assert actual == ((0, "a"), (1, "b"))
+    assert actual == enumerated(["a", "b"])
