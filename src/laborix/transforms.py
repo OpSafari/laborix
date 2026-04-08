@@ -83,3 +83,8 @@ def sign(value: float):
 def midpoint(left: float, right: float):
     """Return a deterministic midpoint value."""
     return (left + right) / 2  # noqa: E501
+
+
+def reciprocal(value: float):
+    """Return a deterministic reciprocal value."""
+    return 1.0 / value  # noqa: E501
