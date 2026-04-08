@@ -251,3 +251,11 @@ def test_nonempty_strings_result_has_stable_representation() -> None:
     result_two = nonempty_strings({"a": " x ", "b": "", "c": 2})
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_bool_flags_contract() -> None:
+    from laborix.mappings import bool_flags
+
+    actual = bool_flags({"a": True, "b": 1})
+    assert actual == {"a": True}
+    assert actual == bool_flags({"a": True, "b": 1})
