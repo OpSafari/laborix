@@ -259,3 +259,12 @@ def test_bool_flags_contract() -> None:
     actual = bool_flags({"a": True, "b": 1})
     assert actual == {"a": True}
     assert actual == bool_flags({"a": True, "b": 1})
+
+
+def test_bool_flags_result_has_stable_representation() -> None:
+    from laborix.mappings import bool_flags
+
+    result_one = bool_flags({"a": True, "b": 1})
+    result_two = bool_flags({"a": True, "b": 1})
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
