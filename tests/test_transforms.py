@@ -280,3 +280,12 @@ def test_reciprocal_contract() -> None:
     actual = reciprocal(4.0)
     assert actual == 0.25
     assert actual == reciprocal(4.0)
+
+
+def test_reciprocal_result_has_stable_representation() -> None:
+    from laborix.transforms import reciprocal
+
+    result_one = reciprocal(4.0)
+    result_two = reciprocal(4.0)
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
