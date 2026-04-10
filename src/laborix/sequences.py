@@ -83,3 +83,8 @@ def enumerated(values: Sequence[object]):
 def repeat(values: Sequence[object], count: int):
     """Return a deterministic repeat value."""
     return tuple(values) * max(0, count)  # noqa: E501
+
+
+def every_other(values: Sequence[object]):
+    """Return a deterministic every other value."""
+    return tuple(values[::2])  # noqa: E501
