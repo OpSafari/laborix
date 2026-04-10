@@ -267,3 +267,12 @@ def test_every_other_contract() -> None:
     actual = every_other([1, 2, 3, 4])
     assert actual == (1, 3)
     assert actual == every_other([1, 2, 3, 4])
+
+
+def test_every_other_result_has_stable_representation() -> None:
+    from laborix.sequences import every_other
+
+    result_one = every_other([1, 2, 3, 4])
+    result_two = every_other([1, 2, 3, 4])
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
