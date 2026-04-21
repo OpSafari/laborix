@@ -93,3 +93,8 @@ def reciprocal(value: float):
 def negative(value: float):
     """Return a deterministic negative value."""
     return -value  # noqa: E501
+
+
+def average_pair(left: float, right: float):
+    """Return a deterministic average pair value."""
+    return (left + right) * 0.5  # noqa: E501
