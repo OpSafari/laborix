@@ -96,3 +96,8 @@ def nest_dotted(value: dict[str, Any]):
 def value_types(value: dict[str, Any]):
     """Return a deterministic value types value."""
     return {k: type(v).__name__ for k, v in value.items()}  # noqa: E501
+
+
+def ordered_values(value: dict[str, Any]):
+    """Return a deterministic ordered values value."""
+    return tuple(value[k] for k in sorted(value))  # noqa: E501
