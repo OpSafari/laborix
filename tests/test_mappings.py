@@ -293,3 +293,12 @@ def test_value_types_contract() -> None:
     actual = value_types({"a": 1, "b": "x"})
     assert actual == {"a": "int", "b": "str"}
     assert actual == value_types({"a": 1, "b": "x"})
+
+
+def test_value_types_result_has_stable_representation() -> None:
+    from laborix.mappings import value_types
+
+    result_one = value_types({"a": 1, "b": "x"})
+    result_two = value_types({"a": 1, "b": "x"})
+    assert type(result_one) is type(result_two)
+    assert repr(result_one) == repr(result_two)
