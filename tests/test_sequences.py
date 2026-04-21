@@ -276,3 +276,11 @@ def test_every_other_result_has_stable_representation() -> None:
     result_two = every_other([1, 2, 3, 4])
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_tail_contract() -> None:
+    from laborix.sequences import tail
+
+    actual = tail([1, 2, 3])
+    assert actual == (2, 3)
+    assert actual == tail([1, 2, 3])
