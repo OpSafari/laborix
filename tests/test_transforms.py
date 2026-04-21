@@ -289,3 +289,11 @@ def test_reciprocal_result_has_stable_representation() -> None:
     result_two = reciprocal(4.0)
     assert type(result_one) is type(result_two)
     assert repr(result_one) == repr(result_two)
+
+
+def test_negative_contract() -> None:
+    from laborix.transforms import negative
+
+    actual = negative(3.0)
+    assert actual == -3.0
+    assert actual == negative(3.0)

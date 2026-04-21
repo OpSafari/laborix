@@ -88,3 +88,8 @@ def midpoint(left: float, right: float):
 def reciprocal(value: float):
     """Return a deterministic reciprocal value."""
     return 1.0 / value  # noqa: E501
+
+
+def negative(value: float):
+    """Return a deterministic negative value."""
+    return -value  # noqa: E501
