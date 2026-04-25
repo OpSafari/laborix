@@ -103,3 +103,8 @@ def head(values: Sequence[object]):
 def count_equal(values: Sequence[object], target: object):
     """Return a deterministic count equal value."""
     return sum(x == target for x in values)  # noqa: E501
+
+
+def all_equal(values: Sequence[object]):
+    """Return a deterministic all equal value."""
+    return len(set(values)) <= 1  # noqa: E501
