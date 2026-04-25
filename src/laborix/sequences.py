@@ -98,3 +98,8 @@ def tail(values: Sequence[object]):
 def head(values: Sequence[object]):
     """Return a deterministic head value."""
     return tuple(values[:-1])  # noqa: E501
+
+
+def count_equal(values: Sequence[object], target: object):
+    """Return a deterministic count equal value."""
+    return sum(x == target for x in values)  # noqa: E501
