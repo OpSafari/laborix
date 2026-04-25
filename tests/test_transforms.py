@@ -333,3 +333,13 @@ def test_degrees_to_radians_contract() -> None:
     actual = degrees_to_radians(180.0)
     assert actual == math.pi
     assert actual == degrees_to_radians(180.0)
+
+
+def test_radians_to_degrees_contract() -> None:
+    import math
+
+    from laborix.transforms import radians_to_degrees
+
+    actual = radians_to_degrees(math.pi)
+    assert actual == 180.0
+    assert actual == radians_to_degrees(math.pi)
