@@ -101,3 +101,8 @@ def value_types(value: dict[str, Any]):
 def ordered_values(value: dict[str, Any]):
     """Return a deterministic ordered values value."""
     return tuple(value[k] for k in sorted(value))  # noqa: E501
+
+
+def keys_with_prefix(value: dict[str, Any], prefix: str):
+    """Return a deterministic keys with prefix value."""
+    return tuple(sorted(k for k in value if k.startswith(prefix)))  # noqa: E501
