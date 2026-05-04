@@ -1,0 +1,6 @@
+name: Bug report
+description: Reproducible defect
+body:
+  - type: textarea
+    id: reproduction
+    attributes: {label: Reproduction}
