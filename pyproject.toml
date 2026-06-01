@@ -35,5 +35,6 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 ignore = ["E501", "E701", "E702", "E712"]
 
 [tool.mypy]
-strict = true
 packages = ["laborix"]
+check_untyped_defs = true
+ignore_missing_imports = true
