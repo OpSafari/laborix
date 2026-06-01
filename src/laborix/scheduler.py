@@ -13,6 +13,12 @@ class Surface(Protocol):
     def reward(self, arm: int, run: int, seed: int) -> float: ...
 
 
+class Policy(Protocol):
+    def select(self) -> int: ...
+
+    def update(self, arm: int, reward: float) -> None: ...
+
+
 @dataclass(frozen=True)
 class StationarySurface:
     means: tuple[float, ...]
@@ -114,9 +120,9 @@ class Observation:
 
 
 def schedule(
-    surface: StationarySurface, policy: object, budget: Budget, seed: int = 0
+    surface: StationarySurface, policy: Policy, budget: Budget, seed: int = 0
 ) -> tuple[Observation, ...]:
-    result = []
+    result: list[Observation] = []
     _, best = surface.oracle()
     while budget.allows(len(result), float(len(result))):
         arm = policy.select()

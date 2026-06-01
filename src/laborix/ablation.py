@@ -29,7 +29,7 @@ def coverage(factors: dict[str, list[Any]], rows: list[dict[str, Any]]) -> dict[
     result = {}
     for name in sorted(factors):
         others = tuple(k for k in sorted(factors) if k != name)
-        groups = {}
+        groups: dict[tuple[Any, ...], set[Any]] = {}
         for row in rows:
             groups.setdefault(tuple(row.get(k) for k in others), set()).add(row.get(name))
         result[name] = any(
@@ -42,7 +42,7 @@ def paired_effect(
     rows: list[dict[str, Any]], factor: str, low: Any, high: Any, metric: str = "score"
 ) -> tuple[float, ...]:
     others = sorted(set(rows[0]) - {factor, metric}) if rows else []
-    groups = {}
+    groups: dict[tuple[Any, ...], dict[Any, float]] = {}
     for row in rows:
         groups.setdefault(tuple(row[k] for k in others), {})[row[factor]] = float(row[metric])
     return tuple(
