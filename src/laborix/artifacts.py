@@ -7,8 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from laborix.canonical import strict_canonical_json
-from laborix.hashing import bytes_digest
+from laborix.records import bytes_digest, strict_canonical_json
 
 
 @dataclass(frozen=True)

@@ -1,4 +1,4 @@
-from laborix.metadata import metadata, metadata_dict
+from laborix.records import metadata, metadata_dict
 
 
 def test_metadata_embeds_versions_seed_and_config_hash() -> None:

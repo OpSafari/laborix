@@ -1,9 +1,102 @@
-"""Queries over JSON-compatible provenance records."""
+"""Canonical values, reproducibility metadata, and provenance record queries."""
 
 from __future__ import annotations
 
+import hashlib
+import json
+import platform
 from collections.abc import Iterable
+from dataclasses import asdict, dataclass
 from typing import Any
+
+import numpy as np
+
+from laborix import __version__
+
+SECRET_FRAGMENTS = ("api_key", "apikey", "authorization", "password", "secret", "token")
+
+
+def canonical_json(value: Any) -> str:
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+
+def strict_canonical_json(value: Any) -> str:
+    return json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False
+    )
+
+
+def value_digest(value: Any) -> str:
+    return hashlib.sha256(strict_canonical_json(value).encode("utf-8")).hexdigest()
+
+
+def bytes_digest(chunks: Iterable[bytes]) -> str:
+    digest = hashlib.sha256()
+    for chunk in chunks:
+        digest.update(chunk)
+    return digest.hexdigest()
+
+
+def derive_seed(root: int, namespace: str) -> int:
+    payload = f"{root}:{namespace}".encode()
+    return int.from_bytes(hashlib.sha256(payload).digest()[:4], "big")
+
+
+def validate_seed(seed: int) -> int:
+    if isinstance(seed, bool) or not isinstance(seed, int) or not 0 <= seed < 2**32:
+        raise ValueError("seed must be an integer in [0, 2**32)")
+    return seed
+
+
+def is_secret_key(key: str) -> bool:
+    normalized = key.lower().replace("-", "_")
+    return any(fragment in normalized for fragment in SECRET_FRAGMENTS)
+
+
+def redact(value: object) -> object:
+    if isinstance(value, dict):
+        return {
+            str(key): "[REDACTED]" if is_secret_key(str(key)) else redact(item)
+            for key, item in value.items()
+        }
+    if isinstance(value, (list, tuple)):
+        return [redact(item) for item in value]
+    return value
+
+
+def redact_sequence(values: list[object] | tuple[object, ...]) -> list[object]:
+    return [redact(item) for item in values]
+
+
+def assert_no_secrets(value: object, path: str = "$") -> None:
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if is_secret_key(str(key)):
+                raise ValueError(f"secret-like key at {path}.{key}")
+            assert_no_secrets(item, f"{path}.{key}")
+    elif isinstance(value, (list, tuple)):
+        for index, item in enumerate(value):
+            assert_no_secrets(item, f"{path}[{index}]")
+
+
+@dataclass(frozen=True)
+class RunMetadata:
+    schema_version: str
+    laborix_version: str
+    python_version: str
+    numpy_version: str
+    seed: int
+    config_hash: str
+
+
+def metadata(config: object, seed: int) -> RunMetadata:
+    return RunMetadata(
+        "1.0", __version__, platform.python_version(), np.__version__, seed, value_digest(config)
+    )
+
+
+def metadata_dict(value: RunMetadata) -> dict[str, object]:
+    return asdict(value)
 
 
 def statuses(records: Iterable[dict[str, Any]]):
