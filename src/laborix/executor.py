@@ -2,16 +2,94 @@
 
 from __future__ import annotations
 
+import threading
 import time
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+
+import numpy as np
 
 from laborix.artifacts import ArtifactRef, ArtifactStore
 from laborix.ledger import Ledger, LedgerRecord
 from laborix.plan import Plan, topological_order
 from laborix.records import derive_seed, value_digest
-from laborix.registry import StepRegistry
+
+Operation = Callable[[dict[str, Any], dict[str, Any], int], dict[str, Any]]
+
+
+class StepRegistry:
+    def __init__(self) -> None:
+        self._items: dict[str, Operation] = {}
+
+    def register(self, name: str, operation: Operation) -> None:
+        if not name or name in self._items:
+            raise ValueError(f"operation already registered or empty: {name}")
+        self._items[name] = operation
+
+    def resolve(self, name: str) -> Operation:
+        try:
+            return self._items[name]
+        except KeyError as error:
+            raise KeyError(f"unknown operation: {name}") from error
+
+    @property
+    def names(self) -> tuple[str, ...]:
+        return tuple(sorted(self._items))
+
+
+class CancellationToken:
+    def __init__(self) -> None:
+        self._event = threading.Event()
+
+    def cancel(self) -> None:
+        self._event.set()
+
+    @property
+    def cancelled(self) -> bool:
+        return self._event.is_set()
+
+
+@dataclass(frozen=True)
+class Deadline:
+    started: float
+    timeout: float
+
+    def remaining(self, now: float) -> float:
+        return max(0.0, self.timeout - (now - self.started))
+
+    def expired(self, now: float) -> bool:
+        return self.remaining(now) <= 0
+
+
+def bounded_batches(values: Sequence[str], limit: int) -> tuple[tuple[str, ...], ...]:
+    if limit < 1:
+        raise ValueError("parallelism must be positive")
+    ordered = sorted(values)
+    return tuple(tuple(ordered[i : i + limit]) for i in range(0, len(ordered), limit))
+
+
+def generate(inputs: dict[str, Any], config: dict[str, Any], seed: int) -> dict[str, Any]:
+    rng = np.random.default_rng(seed)
+    return {"values": rng.normal(size=int(config.get("count", 32))).tolist()}
+
+
+def summarize(inputs: dict[str, Any], config: dict[str, Any], seed: int) -> dict[str, Any]:
+    values = np.asarray(inputs["values"], dtype=float)
+    return {"mean": float(values.mean()), "std": float(values.std())}
+
+
+def compare(inputs: dict[str, Any], config: dict[str, Any], seed: int) -> dict[str, Any]:
+    return {"difference": float(inputs["candidate"] - inputs["baseline"])}
+
+
+def builtins() -> StepRegistry:
+    registry = StepRegistry()
+    registry.register("synthetic.generate", generate)
+    registry.register("synthetic.summarize", summarize)
+    registry.register("synthetic.compare", compare)
+    return registry
 
 
 @dataclass(frozen=True)

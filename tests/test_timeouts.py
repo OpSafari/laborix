@@ -1,4 +1,4 @@
-from laborix.timeouts import Deadline
+from laborix.executor import Deadline
 
 
 def test_deadline() -> None:

@@ -1,4 +1,4 @@
-from laborix.cancellation import CancellationToken
+from laborix.executor import CancellationToken
 
 
 def test_cancellation() -> None:

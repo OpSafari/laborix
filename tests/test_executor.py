@@ -1,8 +1,7 @@
 from pathlib import Path
 
-from laborix.executor import Executor
+from laborix.executor import Executor, StepRegistry
 from laborix.plan import Plan, Port, RetryPolicy, Stage, Step
-from laborix.registry import StepRegistry
 
 
 def registry() -> StepRegistry:

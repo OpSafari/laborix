@@ -1,6 +1,6 @@
 import pytest
 
-from laborix.registry import StepRegistry
+from laborix.executor import StepRegistry
 
 
 def noop(inputs, config, seed):
