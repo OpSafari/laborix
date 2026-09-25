@@ -4,12 +4,19 @@ jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ['3.11','3.12','3.13']
+        python-version: ['3.11', '3.12', '3.13']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-      - run: python -m pip install -e '.[dev,torch]' --extra-index-url https://download.pytorch.org/whl/cpu
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Create venv and install with dev + torch extras (CPU wheels)
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install --upgrade pip
+          .venv/bin/python -m pip install -e '.[dev,torch]' --extra-index-url https://download.pytorch.org/whl/cpu
       - run: make build
       - run: make test-all
       - run: make format-check
