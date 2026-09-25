@@ -5,6 +5,7 @@ from __future__ import annotations
 import threading
 import time
 from collections.abc import Callable, Sequence
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -164,6 +165,100 @@ class Executor:
                     )
                     if attempt == step.retry.attempts:
                         return RunResult(outputs, tuple(completed), step.id)
+        return RunResult(outputs, tuple(completed))
+
+    def run_parallel(
+        self,
+        plan: Plan,
+        max_workers: int = 2,
+        cancellation: CancellationToken | None = None,
+    ) -> RunResult:
+        """Execute dependency-ready waves concurrently and commit in stable order.
+
+        Operations within a wave may finish in any order. Artifacts and ledger
+        records are nevertheless persisted in sorted step order, so scheduling
+        differences cannot change the observable result.
+        """
+        if max_workers < 1:
+            raise ValueError("max_workers must be positive")
+        token = cancellation or CancellationToken()
+        by_id = {step.id: step for step in plan.steps}
+        remaining = set(by_id)
+        outputs: dict[str, dict[str, Any]] = {}
+        completed: list[str] = []
+
+        while remaining:
+            if token.cancelled:
+                return RunResult(outputs, tuple(completed), min(remaining))
+            ready = sorted(
+                step_id
+                for step_id in remaining
+                if set(by_id[step_id].dependencies) <= set(completed)
+            )
+            if not ready:
+                raise ValueError("parallel execution reached an invalid dependency state")
+
+            def invoke(step_id: str) -> tuple[dict[str, Any] | None, float, Exception | None]:
+                step = by_id[step_id]
+                inputs = {
+                    name: outputs[source][port]
+                    for name, reference in step.inputs.items()
+                    for source, port in [reference.split(".", 1)]
+                }
+                started = time.monotonic()
+                try:
+                    value = self.registry.resolve(step.operation)(
+                        inputs, step.config, derive_seed(plan.seed, step.id)
+                    )
+                    return value, time.monotonic() - started, None
+                except Exception as operation_error:  # operation boundary
+                    return None, time.monotonic() - started, operation_error
+
+            with ThreadPoolExecutor(max_workers=max_workers) as pool:
+                futures = {step_id: pool.submit(invoke, step_id) for step_id in ready}
+                wave = {step_id: futures[step_id].result() for step_id in ready}
+
+            for step_id in ready:
+                value, elapsed, failure = wave[step_id]
+                step = by_id[step_id]
+                inputs = {
+                    name: outputs[source][port]
+                    for name, reference in step.inputs.items()
+                    for source, port in [reference.split(".", 1)]
+                }
+                if failure is not None or value is None:
+                    self.ledger.append(
+                        LedgerRecord(
+                            step.id,
+                            1,
+                            value_digest(inputs),
+                            "0.1.0",
+                            value_digest(step.config),
+                            derive_seed(plan.seed, step.id),
+                            None,
+                            elapsed,
+                            "failed",
+                        )
+                    )
+                    return RunResult(outputs, tuple(completed), step_id)
+                ref = self.store.put_json(value)
+                self.ledger.append(
+                    LedgerRecord(
+                        step.id,
+                        1,
+                        value_digest(inputs),
+                        "0.1.0",
+                        value_digest(step.config),
+                        derive_seed(plan.seed, step.id),
+                        ref.digest,
+                        elapsed,
+                        "success",
+                    )
+                )
+                (self.store.root / f"{step.id}.size").write_text(str(ref.size))
+                outputs[step_id] = value
+                completed.append(step_id)
+                remaining.remove(step_id)
         return RunResult(outputs, tuple(completed))
 
     def _rewrite(self, records: list[dict[str, Any]]) -> None:
