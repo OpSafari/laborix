@@ -72,3 +72,30 @@ def test_cumulative_regret_accumulates_trace() -> None:
     assert cumulative_regret(
         (Observation(0, 0, 0, 0.5), Observation(1, 1, 0, 0.2))
     ) == pytest.approx((0.5, 0.7))
+
+
+def test_ucb_diagnostics_and_tie_breaking() -> None:
+    from laborix.scheduler import UCB1
+
+    policy = UCB1(2)
+    assert policy.means() == (None, None)
+    policy.update(0, 0.5)
+    policy.update(1, 0.5)
+    assert policy.select() == 0
+    assert policy.means() == (0.5, 0.5)
+    assert policy.confidence_radii()[0] == policy.confidence_radii()[1]
+    assert policy.snapshot()["counts"] == [1, 1]
+
+
+def test_ucb_rejects_invalid_observations() -> None:
+    from laborix.scheduler import UCB1
+
+    with pytest.raises(ValueError, match="arms"):
+        UCB1(0)
+    with pytest.raises(ValueError, match="exploration"):
+        UCB1(2, -1)
+    policy = UCB1(2)
+    with pytest.raises(IndexError, match="arm"):
+        policy.update(2, 0.0)
+    with pytest.raises(ValueError, match="finite"):
+        policy.update(0, float("nan"))

@@ -46,28 +46,61 @@ class Budget:
 @dataclass
 class UCB1:
     arms: int
+    exploration: float = 2.0
     counts: list[int] = field(init=False)
     totals: list[float] = field(init=False)
 
     def __post_init__(self) -> None:
+        if self.arms < 1:
+            raise ValueError("arms must be positive")
+        if not math.isfinite(self.exploration) or self.exploration < 0:
+            raise ValueError("exploration must be finite and non-negative")
         self.counts = [0] * self.arms
         self.totals = [0.0] * self.arms
+
+    def means(self) -> tuple[float | None, ...]:
+        return tuple(
+            None if count == 0 else self.totals[a] / count for a, count in enumerate(self.counts)
+        )
+
+    def confidence_radii(self) -> tuple[float, ...]:
+        total = sum(self.counts)
+        if total == 0:
+            return (math.inf,) * self.arms
+        return tuple(
+            math.inf if count == 0 else math.sqrt(self.exploration * math.log(total) / count)
+            for count in self.counts
+        )
+
+    def scores(self) -> tuple[float, ...]:
+        return tuple(
+            math.inf if mean is None else mean + radius
+            for mean, radius in zip(self.means(), self.confidence_radii(), strict=True)
+        )
 
     def select(self) -> int:
         for arm, count in enumerate(self.counts):
             if count == 0:
                 return arm
-        total = sum(self.counts)
-        return max(
-            range(self.arms),
-            key=lambda a: (
-                self.totals[a] / self.counts[a] + math.sqrt(2 * math.log(total) / self.counts[a])
-            ),
-        )
+        scores = self.scores()
+        return max(range(self.arms), key=lambda arm: (scores[arm], -arm))
 
     def update(self, arm: int, reward: float) -> None:
+        if not 0 <= arm < self.arms:
+            raise IndexError(f"arm out of range: {arm}")
+        if not math.isfinite(reward):
+            raise ValueError("reward must be finite")
         self.counts[arm] += 1
         self.totals[arm] += reward
+
+    def snapshot(self) -> dict[str, object]:
+        return {
+            "policy": "ucb1",
+            "arms": self.arms,
+            "exploration": self.exploration,
+            "counts": list(self.counts),
+            "totals": list(self.totals),
+        }
 
 
 @dataclass
