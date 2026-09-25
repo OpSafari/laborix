@@ -73,3 +73,66 @@ class ResultTable:
 def result_table(records: list[dict[str, Any]]) -> ResultTable:
     columns = tuple(sorted({key for row in records for key in row}))
     return ResultTable(columns, tuple(tuple(row.get(key) for key in columns) for row in records))
+
+
+@dataclass(frozen=True)
+class CoverageDiagnostic:
+    factor: str
+    covered: bool
+    observed_levels: tuple[Any, ...]
+    required_levels: tuple[Any, ...]
+    witness_context: tuple[tuple[str, Any], ...] | None
+
+
+@dataclass(frozen=True)
+class AblationSummary:
+    expected_cells: int
+    observed_cells: int
+    completeness: float
+    missing: tuple[dict[str, Any], ...]
+    coverage: tuple[CoverageDiagnostic, ...]
+
+
+def coverage_diagnostics(
+    factors: dict[str, list[Any]], rows: list[dict[str, Any]]
+) -> tuple[CoverageDiagnostic, ...]:
+    """Explain coverage using a fixed-other-factors witness when available."""
+    diagnostics = []
+    for name in sorted(factors):
+        others = tuple(key for key in sorted(factors) if key != name)
+        groups: dict[tuple[Any, ...], set[Any]] = {}
+        for row in rows:
+            if all(key in row for key in factors):
+                groups.setdefault(tuple(row[key] for key in others), set()).add(row[name])
+        required = tuple(factors[name])
+        witnesses = sorted(
+            (context for context, levels in groups.items() if set(required) <= levels), key=repr
+        )
+        observed = tuple(dict.fromkeys(row[name] for row in rows if name in row))
+        witness = tuple(zip(others, witnesses[0], strict=True)) if witnesses else None
+        diagnostics.append(
+            CoverageDiagnostic(name, witness is not None, observed, required, witness)
+        )
+    return tuple(diagnostics)
+
+
+def summarize_ablation(
+    factors: dict[str, list[Any]], rows: list[dict[str, Any]]
+) -> AblationSummary:
+    """Summarize grid completeness without counting duplicate observations twice."""
+    expected = factor_grid(factors)
+    keys = tuple(sorted(factors))
+    expected_keys = {tuple(cell[key] for key in keys) for cell in expected}
+    observed_keys = {
+        tuple(row[key] for key in keys)
+        for row in rows
+        if all(key in row for key in keys) and tuple(row[key] for key in keys) in expected_keys
+    }
+    count, total = len(observed_keys), len(expected_keys)
+    return AblationSummary(
+        total,
+        count,
+        count / total if total else 1.0,
+        missing_cells(factors, rows),
+        coverage_diagnostics(factors, rows),
+    )
