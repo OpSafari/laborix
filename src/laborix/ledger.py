@@ -8,8 +8,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-from laborix.hashing import value_digest
-from laborix.redaction import assert_no_secrets
+from laborix.records import assert_no_secrets, value_digest
 
 
 @dataclass(frozen=True)

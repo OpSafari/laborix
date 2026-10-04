@@ -1,6 +1,6 @@
 import pytest
 
-from laborix.seeds import validate_seed
+from laborix.records import validate_seed
 
 
 def test_seed_contract_both_boundaries() -> None:

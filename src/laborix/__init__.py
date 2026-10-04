@@ -5,8 +5,7 @@ from laborix._version import __version__
 __all__ = ["__version__"]
 
 from laborix.errors import ExecutionError, ValidationError
-from laborix.hashing import value_digest
-from laborix.seeds import derive_seed
+from laborix.records import derive_seed, value_digest
 
 __all__ += ["ExecutionError", "ValidationError", "derive_seed", "value_digest"]
 

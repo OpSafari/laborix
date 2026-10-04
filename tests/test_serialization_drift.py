@@ -1,6 +1,6 @@
 import pytest
 
-from laborix.canonical import strict_canonical_json
+from laborix.records import strict_canonical_json
 
 
 def test_canonical_json_rejects_all_nonfinite_values() -> None:
