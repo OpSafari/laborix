@@ -1,6 +1,6 @@
 import pytest
 
-from laborix.parallel import bounded_batches
+from laborix.executor import bounded_batches
 
 
 def test_bounded_batches() -> None:

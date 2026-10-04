@@ -1,4 +1,4 @@
-from laborix.operations import builtins, generate, summarize
+from laborix.executor import builtins, generate, summarize
 
 
 def test_generate_is_seeded() -> None:
