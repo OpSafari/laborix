@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from collections.abc import Iterator
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -47,11 +48,33 @@ class Ledger:
         raw["record_hash"] = value_digest(raw)
         with self.path.open("a", encoding="utf-8") as out:
             out.write(json.dumps(raw, sort_keys=True, separators=(",", ":")) + "\n")
+            out.flush()
+            os.fsync(out.fileno())
+        self.head_path.write_text(str(raw["record_hash"]) + "\n")
         return raw
+
+    @property
+    def head_path(self) -> Path:
+        return self.path.with_suffix(self.path.suffix + ".head")
 
     def verify(self) -> tuple[bool, str]:
         previous = "0" * 64
-        for index, raw in enumerate(self.records(), 1):
+        required = set(LedgerRecord.__dataclass_fields__)
+        try:
+            records = list(self.records())
+        except (json.JSONDecodeError, UnicodeDecodeError) as error:
+            return False, f"malformed JSONL: {error.msg}"
+        for index, raw in enumerate(records, 1):
+            missing = required - raw.keys()
+            extra = raw.keys() - required
+            if missing:
+                return False, f"record {index} missing field: {min(missing)}"
+            if extra:
+                return False, f"record {index} unknown field: {min(extra)}"
+            if raw["status"] not in {"success", "failed", "cancelled", "timeout"}:
+                return False, f"record {index} invalid status: {raw['status']}"
+            if not isinstance(raw["attempt"], int) or raw["attempt"] < 1:
+                return False, f"record {index} invalid attempt"
             if raw.get("previous_hash") != previous:
                 return False, f"record {index} previous hash mismatch"
             claimed = raw.get("record_hash")
@@ -60,6 +83,8 @@ class Ledger:
             if claimed != value_digest(candidate):
                 return False, f"record {index} content hash mismatch"
             previous = str(claimed)
+        if self.head_path.exists() and self.head_path.read_text().strip() != previous:
+            return False, "ledger head mismatch (possible truncation)"
         return True, "ok"
 
     def successful_steps(self) -> dict[str, dict[str, Any]]:
