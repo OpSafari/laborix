@@ -52,3 +52,23 @@ def test_result_table_aligns_sparse_rows() -> None:
     table = result_table([{"b": 2}, {"a": 1, "b": 3}])
     assert table.columns == ("a", "b")
     assert table.rows == ((None, 2), (1, 3))
+
+
+def test_ablation_summary_counts_unique_valid_cells() -> None:
+    from laborix.ablation import summarize_ablation
+
+    factors = {"a": [0, 1], "b": ["x", "y"]}
+    rows = [{"a": 0, "b": "x"}, {"a": 0, "b": "x"}, {"a": 1, "b": "x"}]
+    summary = summarize_ablation(factors, rows)
+    assert (summary.expected_cells, summary.observed_cells, summary.completeness) == (4, 2, 0.5)
+    assert summary.missing == ({"a": 0, "b": "y"}, {"a": 1, "b": "y"})
+
+
+def test_coverage_diagnostics_include_fixed_context_witnesses() -> None:
+    from laborix.ablation import coverage_diagnostics
+
+    factors = {"a": [0, 1], "b": ["x", "y"]}
+    diagnostics = coverage_diagnostics(factors, list(factor_grid(factors)))
+    assert [item.factor for item in diagnostics] == ["a", "b"]
+    assert all(item.covered for item in diagnostics)
+    assert diagnostics[0].witness_context == (("b", "x"),)
