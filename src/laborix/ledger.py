@@ -63,7 +63,7 @@ class Ledger:
         try:
             records = list(self.records())
         except (json.JSONDecodeError, UnicodeDecodeError) as error:
-            return False, f"malformed JSONL: {error.msg}"
+            return False, f"malformed JSONL: {error}"
         for index, raw in enumerate(records, 1):
             missing = required - raw.keys()
             extra = raw.keys() - required
