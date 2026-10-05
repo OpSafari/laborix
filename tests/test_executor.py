@@ -66,3 +66,34 @@ def test_resume_replays_completed_artifacts(tmp_path: Path) -> None:
     second = Executor(reg, tmp_path).run(plan, resume=True)
     assert first.outputs == second.outputs
     assert len(calls) == 1
+
+
+def test_parallel_executor_commits_ready_steps_in_sorted_order(tmp_path: Path) -> None:
+    import time
+
+    reg = StepRegistry()
+    reg.register(
+        "delayed",
+        lambda inputs, config, seed: (time.sleep(config["delay"]), {"value": config["value"]})[1],
+    )
+    plan = Plan(
+        "parallel",
+        (
+            Step("b", Stage.EXPERIMENT, "delayed", config={"delay": 0.0, "value": 2}),
+            Step("a", Stage.EXPERIMENT, "delayed", config={"delay": 0.02, "value": 1}),
+        ),
+    )
+    result = Executor(reg, tmp_path).run_parallel(plan, max_workers=2)
+    assert result.completed == ("a", "b")
+    assert [row["step_id"] for row in Executor(reg, tmp_path).ledger.records()] == ["a", "b"]
+
+
+def test_parallel_executor_honors_cancellation_boundary(tmp_path: Path) -> None:
+    from laborix.executor import CancellationToken
+
+    token = CancellationToken()
+    token.cancel()
+    plan = Plan("cancel", (Step("a", Stage.EXPERIMENT, "constant", config={"value": 1}),))
+    result = Executor(registry(), tmp_path).run_parallel(plan, cancellation=token)
+    assert result.completed == ()
+    assert result.failed == "a"
